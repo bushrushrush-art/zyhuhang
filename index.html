@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大强学长校招信息分享</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.va = window.va || function () {
+            (window.vaq = window.vaq || []).push(arguments);
+        };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .filter-tag {
+            transition: all 0.2s;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen font-sans text-gray-800">
+
+    <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- 顶部标题 -->
+        <div class="mb-6 border-b border-gray-200 pb-4">
+            <h1 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                <span class="text-red-500 text-3xl">💼</span>
+                大强学长校招信息分享
+            </h1>
+            <p class="text-sm text-gray-500 mt-2">
+                实时同步校招 / 实习 / 社招岗位信息，支持多选：行业、城市、标签等
+            </p>
+        </div>
+
+        <!-- 顶部数据卡片 -->
+        <div class="grid grid-cols-3 gap-2 sm:gap-3 mb-5 sm:mb-6">
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm px-2 py-3 sm:p-4 min-w-0">
+                <div class="text-[10px] sm:text-xs text-gray-400 mb-1 whitespace-nowrap">今日更新</div>
+                <div class="flex items-end gap-0.5 sm:gap-1">
+                    <span id="today-count" class="text-lg sm:text-2xl font-bold text-red-500 leading-none">0</span>
+                    <span class="text-[10px] sm:text-sm text-gray-500 mb-0.5 sm:mb-1">条</span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm px-2 py-3 sm:p-4 min-w-0">
+                <div class="text-[10px] sm:text-xs text-gray-400 mb-1 whitespace-nowrap">7日更新</div>
+                <div class="flex items-end gap-0.5 sm:gap-1">
+                    <span id="seven-days-count" class="text-lg sm:text-2xl font-bold text-blue-600 leading-none">0</span>
+                    <span class="text-[10px] sm:text-sm text-gray-500 mb-0.5 sm:mb-1">条</span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm px-2 py-3 sm:p-4 min-w-0">
+                <div class="text-[10px] sm:text-xs text-gray-400 mb-1 whitespace-nowrap">当前数据范围</div>
+                <div id="data-range-text" class="text-[11px] sm:text-sm font-bold text-gray-700 leading-tight truncate sm:mt-2">
+                    正在加载...
+                </div>
+            </div>
+        </div>
+
+        <!-- 筛选区 -->
+        <div class="bg-white p-4 sm:p-5 rounded-xl shadow-sm border border-gray-200 mb-6 text-sm">
+
+            <!-- 搜索 -->
+            <div class="flex items-center border-b border-gray-100 pb-3 mb-3">
+                <span class="text-gray-900 font-bold w-20 shrink-0">搜索:</span>
+                <div class="flex-1">
+                    <input
+                        id="global-search"
+                        type="text"
+                        placeholder="搜索公司 / 岗位 / 城市 / 行业，比如：字节、嵌入式、上海"
+                        oninput="handleGlobalSearch(this.value)"
+                        class="w-full sm:w-[560px] px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm outline-none focus:border-red-300 focus:bg-white"
+                    />
+                </div>
+            </div>
+
+            <!-- 标签 -->
+            <div class="flex items-start border-b border-gray-100 pb-3 mb-3">
+                <span class="text-gray-900 font-bold w-20 shrink-0 mt-0.5">标签:</span>
+                <div id="filter-jobTag" class="flex flex-wrap gap-x-4 gap-y-2 flex-1"></div>
+            </div>
+
+            <!-- 特色 -->
+            <div class="flex items-start border-b border-gray-100 pb-3 mb-3">
+                <span class="text-gray-900 font-bold w-20 shrink-0 mt-0.5">特色:</span>
+                <div id="filter-feature" class="flex flex-wrap gap-x-4 gap-y-2 flex-1"></div>
+            </div>
+
+            <!-- 行业 -->
+            <div class="flex items-start border-b border-gray-100 pb-3 mb-3">
+                <span class="text-gray-900 font-bold w-20 shrink-0 mt-0.5">行业:</span>
+                <div id="filter-industry" class="flex flex-wrap gap-x-4 gap-y-2 flex-1 max-h-24 overflow-y-auto no-scrollbar"></div>
+            </div>
+
+            <!-- 城市 -->
+            <div class="flex items-start border-b border-gray-100 pb-3 mb-3">
+                <span class="text-gray-900 font-bold w-20 shrink-0 mt-0.5">城市:</span>
+                <div class="flex-1">
+                    <div class="mb-3">
+                        <input
+                            id="city-search"
+                            type="text"
+                            placeholder="搜索城市，比如：北京、上海、深圳"
+                            oninput="handleCitySearch(this.value)"
+                            class="w-full sm:w-80 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm outline-none focus:border-red-300 focus:bg-white"
+                        />
+                    </div>
+                    <div id="filter-city" class="flex flex-wrap gap-x-4 gap-y-2"></div>
+                </div>
+            </div>
+
+            <!-- 岗位方向 -->
+            <div class="flex items-start border-b border-gray-100 pb-3 mb-3">
+                <span class="text-gray-900 font-bold w-20 shrink-0 mt-0.5">岗位方向:</span>
+                <div class="flex-1">
+                    <div class="mb-3">
+                        <input
+                            id="position-search"
+                            type="text"
+                            placeholder="搜索岗位方向，比如：产品、运营、算法"
+                            oninput="handlePositionSearch(this.value)"
+                            class="w-full sm:w-[560px] px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm outline-none focus:border-red-300 focus:bg-white"
+                        />
+                    </div>
+                    <div id="filter-position" class="flex flex-wrap gap-x-4 gap-y-2 max-h-24 overflow-y-auto no-scrollbar"></div>
+                </div>
+            </div>
+
+            <!-- 企业性质 -->
+            <div class="flex items-start">
+                <span class="text-gray-900 font-bold w-20 shrink-0 mt-0.5">企业性质:</span>
+                <div id="filter-companyType" class="flex flex-wrap gap-x-4 gap-y-2 flex-1"></div>
+            </div>
+        </div>
+
+        <!-- 统计条 -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+            <div class="text-sm text-gray-500">
+                当前共找到
+                <span id="total-records" class="text-red-500 font-bold">0</span>
+                条岗位信息，
+                第
+                <span id="current-page" class="text-red-500 font-bold">1</span>
+                /
+                <span id="total-pages" class="text-red-500 font-bold">1</span>
+                页
+                <span class="text-gray-400 ml-2">每页 20 条，已按更新时间倒序排列</span>
+            </div>
+
+            <div class="flex items-center gap-3 flex-wrap">
+                <span id="data-status" class="text-xs px-2 py-1 rounded bg-orange-50 text-orange-600 border border-orange-100">
+                    正在加载数据...
+                </span>
+                <button onclick="copyCurrentFilterLink(this)" class="text-sm text-blue-600 hover:text-blue-700">
+                    分享当前筛选
+                </button>
+                <button onclick="resetFilters()" class="text-sm text-gray-500 hover:text-red-500">
+                    重置筛选
+                </button>
+            </div>
+        </div>
+
+        <!-- 当前筛选条件 -->
+        <div id="active-filter-summary" class="hidden mb-4 text-xs text-gray-500 bg-white border border-gray-100 rounded-lg px-3 py-2"></div>
+
+        <!-- 数据区 -->
+        <div id="data-container">
+            <div class="bg-white p-12 text-center rounded-xl shadow-sm border border-gray-200">
+                <div class="text-4xl mb-4">🚀</div>
+                <div class="text-gray-500 font-bold text-lg">正在加载实时岗位数据...</div>
+                <div class="text-gray-400 text-sm mt-2">请稍等片刻</div>
+            </div>
+        </div>
+
+        <!-- 分页区 -->
+        <div id="pagination-container" class="mt-6"></div>
+
+    </div>
+
+    <script>
+        const filterData = {
+            jobTags: [
+                "全部", "春招", "秋招", "实习", "补录", "提前批"
+            ],
+            features: [
+                "全部", "不限专业", "近3天", "近7天"
+            ],
+            industries: [
+                "不限", "金融业", "IT/互联网/游戏", "互联网", "人工智能", 
+                "房地产业/建筑业", "咨询", "快速消费品", "耐用消费品", 
+                "机械/制造业", "汽车制造", "汽车制造/维修/零配件", 
+                "医疗/医药/生物", "医疗生物", "能源/化工/环保"
+            ],
+            cities: [
+                "全国", "北京", "上海", "广州", "深圳", "杭州", 
+                "成都", "武汉", "西安", "南京", "长沙", "郑州", 
+                "重庆", "天津", "苏州", "厦门"
+            ],
+            positions: [
+                "不限", "运营", "设计", "IT技术", "人工智能", "产品经理", 
+                "产品", "供应链", "市场", "策划", "传媒类", "项目管理", 
+                "人事/行政", "法务合规", "财务/审计/税务", "研发", "测试", 
+                "前端", "后端"
+            ],
+            companyTypes: [
+                "不限", "央企", "国企", "外企", "合资", "民企", 
+                "事业单位", "政府机关"
+            ]
+        };
+
+        const FAST_LIMIT = 200;
+        const FULL_LIMIT = 5000;
+
+        let allJobs = [];
+        let filteredJobs = [];
+
+        let currentFilters = {
+            globalKeyword: "",
+            jobTag: [],
+            feature: [],
+            industry: [],
+            city: [],
+            cityKeyword: "",
+            positionKeyword: "",
+            position: [],
+            companyType: []
+        };
+
+        let currentPage = 1;
+        let pageSize = 20;
+        let totalPages = 1;
+        let totalRecords = 0;
+
+        let isLoadingFast = false;
+        let isLoadingFull = false;
+        let isFullDataLoaded = false;
+        let dataScope = "fast";
+
+        // === 新增：本地已阅记录存储 ===
+        let readJobs = JSON.parse(localStorage.getItem('daqiang_read_jobs') || '[]');
+
+        // 为每个岗位生成一个唯一短ID
+        function getJobHashId(job) {
+            const str = (job.companyName || "") + "_" + (job.content || "") + "_" + (job.city || "");
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = ((hash << 5) - hash) + str.charCodeAt(i);
+                hash |= 0; 
+            }
+            return 'job_' + Math.abs(hash).toString(36);
+        }
+
+        // 标记岗位为已阅，并在页面上做出视觉反馈
+        function markAsRead(jobId) {
+            if (!readJobs.includes(jobId)) {
+                readJobs.push(jobId);
+                // 限制最多保存 2000 条记录，防止本地缓存撑爆
+                if (readJobs.length > 2000) readJobs.shift();
+                localStorage.setItem('daqiang_read_jobs', JSON.stringify(readJobs));
+                
+                // 直接操作 DOM 让卡片变灰，不需要重新刷新页面
+                const row = document.getElementById(`row-${jobId}`);
+                if (row) row.classList.add('opacity-60', 'bg-gray-50/50');
+                
+                const card = document.getElementById(`card-${jobId}`);
+                if (card) {
+                    card.classList.remove('bg-white');
+                    card.classList.add('opacity-60', 'bg-gray-50/50');
+                }
+                
+                // 显示已阅角标
+                const badges = document.querySelectorAll(`.read-badge-${jobId}`);
+                badges.forEach(b => b.classList.remove('hidden'));
+            }
+        }
+        // ==========================
+
+        const bigCities = [
+            "全国", "北京", "上海", "广州", "深圳", "杭州", "成都", 
+            "武汉", "南京", "苏州", "西安", "长沙", "重庆", "天津"
+        ];
+
+        const bigCompanyKeywords = [
+            "阿里", "腾讯", "字节", "百度", "京东", "美团", "快手", 
+            "小米", "华为", "网易", "滴滴", "携程", "哔哩哔哩", "bilibili", 
+            "比亚迪", "蔚来", "理想", "小鹏", "宁德时代", "中兴", "海康", 
+            "大疆", "联想", "美的", "格力"
+        ];
+
+        const agnosticKeywords = [
+            "销售", "商务", "BD", "客户", "渠道", "运营", "新媒体", 
+            "主播", "市场", "品牌", "公关", "策划", "管培生", "储备干部", 
+            "人事", "人力资源", "行政", "助理"
+        ];
+
+        const strictKeywords = [
+            "研发", "算法", "工程师", "C++", "Java", "财务", "法务", 
+            "审计", "技术管培", "开发", "运维", "测试", "前端", "后端", 
+            "数据分析"
+        ];
+
+        function getMajorTag(content) {
+            if (!content) return "";
+            if (strictKeywords.some(kw => content.includes(kw))) {
+                return "";
+            }
+            if (agnosticKeywords.some(kw => content.includes(kw))) {
+                return "🌟 不限专业";
+            }
+            return "";
+        }
+
+        function isMajorFriendly(job) {
+            const tag = job.noMajor || getMajorTag(job.content);
+            const text = [tag, job.content, job.companyName].join(" ");
+            return text.includes("不限专业") ||
+                text.includes("专业不限") ||
+                text.includes("不限经验") ||
+                text.includes("不限背景") ||
+                text.includes("管培生") ||
+                agnosticKeywords.some(kw => text.includes(kw));
+        }
+
+        function isBigCityOrNational(job) {
+            const city = String(job.city || "");
+            return bigCities.some(c => city.includes(c));
+        }
+
+        function isGoodCompanyRelated(job) {
+            const companyName = String(job.companyName || "");
+            const companyType = String(job.companyType || "");
+            return companyType.includes("外企") ||
+                companyType.includes("国企") ||
+                companyType.includes("央企") ||
+                bigCompanyKeywords.some(kw => companyName.toLowerCase().includes(String(kw).toLowerCase()));
+        }
+
+        function isClearPosition(job) {
+            const content = String(job.content || "").trim();
+            if (!content || content === "-" || content === "岗位信息待补充") {
+                return false;
+            }
+            return content.length >= 4;
+        }
+
+        function getRecommendTag(job) {
+            if (isMajorFriendly(job) && isBigCityOrNational(job) && isGoodCompanyRelated(job)) {
+                return { text: "⭐⭐⭐ 优先投", className: "bg-red-50 text-red-600 border-red-100" };
+            }
+            if (isClearPosition(job)) {
+                return { text: "⭐⭐ 值得看", className: "bg-blue-50 text-blue-600 border-blue-100" };
+            }
+            return { text: "⭐ 普通", className: "bg-gray-50 text-gray-500 border-gray-100" };
+        }
+
+        function escapeHTML(value) {
+            return String(value ?? "")
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+        function safeText(value, fallback = "-") {
+            const text = String(value ?? "").trim();
+            return text || fallback;
+        }
+
+        function safeUrl(value) {
+            const url = String(value ?? "").trim();
+            if (url.startsWith("http://") || url.startsWith("https://")) {
+                return url;
+            }
+            return "";
+        }
+
+        function extractEmails(value) {
+            const text = String(value ?? "");
+            const matches = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g);
+            if (!matches) return [];
+            return Array.from(new Set(matches));
+        }
+
+        function getApplyInfo(rawValue, fallbackUrl = "", applyType = "") {
+            const rawText = String(rawValue ?? "").trim();
+            const fallbackLink = safeUrl(fallbackUrl);
+            const rawLink = safeUrl(rawText);
+            const emails = extractEmails(rawText);
+
+            if (applyType === "email" || emails.length > 0) {
+                return {
+                    type: "email",
+                    url: "",
+                    text: rawText || `投递邮箱：${emails.join("; ")}`,
+                    emails,
+                    copyText: emails.length > 0 ? emails.join("; ") : rawText
+                };
+            }
+            if (fallbackLink || rawLink) {
+                return {
+                    type: "url",
+                    url: fallbackLink || rawLink,
+                    text: rawText || "官方投递通道",
+                    copyText: fallbackLink || rawLink
+                };
+            }
+            if (rawText && rawText !== "-") {
+                return {
+                    type: "text",
+                    url: "",
+                    text: rawText,
+                    copyText: rawText
+                };
+            }
+            return { type: "empty", url: "", text: "", copyText: "" };
+        }
+
+        function includesKeyword(text, keyword) {
+            const source = String(text || "").toLowerCase();
+            const target = String(keyword || "").trim().toLowerCase();
+            if (!target) return true;
+            return source.includes(target);
+        }
+
+        function matchGlobalKeyword(job, keyword) {
+            if (!keyword) return true;
+            const text = [job.companyName, job.content, job.city, job.industry, job.companyType, job.tag].join(" ");
+            return includesKeyword(text, keyword);
+        }
+
+        function matchJobTagArray(job, selectedTags) {
+            if (!selectedTags || selectedTags.length === 0) return true;
+            const text = [job.tag, job.companyName, job.content].join(" ");
+            return selectedTags.some(tag => {
+                if (tag === "春招") return text.includes("春招") || text.includes("春季");
+                if (tag === "秋招") return text.includes("秋招") || text.includes("秋季");
+                if (tag === "实习") return text.includes("实习");
+                if (tag === "补录") return text.includes("补录") || text.includes("补招");
+                if (tag === "提前批") return text.includes("提前批");
+                return text.includes(tag);
+            });
+        }
+
+        function matchFeatureArray(job, selectedFeatures) {
+            if (!selectedFeatures || selectedFeatures.length === 0) return true;
+            return selectedFeatures.every(feat => {
+                if (feat === "不限专业") return isMajorFriendly(job);
+                if (feat === "近3天") return matchRecentDays(job, 3);
+                if (feat === "近7天") return matchRecentDays(job, 7);
+                return true;
+            });
+        }
+
+        function matchRecentDays(job, days) {
+            const updateMs = parseJobTime(job.updateTime);
+            if (!updateMs) return false;
+            const now = Date.now();
+            const diffDays = (now - updateMs) / (1000 * 60 * 60 * 24);
+            return diffDays <= days || diffDays < 0;
+        }
+
+        function parseJobTime(value) {
+            if (!value) return 0;
+            if (typeof value === "number") return value;
+            const str = String(value).trim();
+            if (!str || str === "-") return 0;
+            const num = Number(str);
+            if (!Number.isNaN(num) && num > 1000000000000) return num;
+            const ms = new Date(str.replace(/-/g, "/")).getTime();
+            return Number.isNaN(ms) ? 0 : ms;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return "-";
+            if (typeof dateString === "number") {
+                const d = new Date(dateString);
+                const pad = n => String(n).padStart(2, "0");
+                return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+            }
+            const str = String(dateString);
+            if (str.includes(" ")) return str.split(" ")[0];
+            const num = Number(str);
+            if (!Number.isNaN(num) && num > 1000000000000) {
+                const d = new Date(num);
+                const pad = n => String(n).padStart(2, "0");
+                return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+            }
+            return str.slice(0, 10);
+        }
+
+        function normalizeJob(job) {
+            return {
+                companyName: safeText(job.companyName || job["公司名称"], "未知公司"),
+                companyType: safeText(job.companyType || job["企业性质"], "-"),
+                content: safeText(job.content || job["招聘岗位"], "岗位信息待补充"),
+                city: safeText(job.city || job.cityNameList || job["工作城市"], "全国"),
+                industry: safeText(job.industry || job.recruitBusinessName || job["所属行业"], "-"),
+                url: String(job.url || job.applyUrl || job["投递链接"] || "").trim(),
+                applyText: String(job.applyText || job["投递方式"] || "").trim(),
+                applyType: String(job.applyType || "").trim(),
+                urgency: safeText(job.urgency || job["急招指数"], ""),
+                noMajor: safeText(job.noMajor || job["跨考友好"], ""),
+                tag: safeText(job.tag || job["岗位标签"], ""),
+                updateTime: job.updateTime || job["更新时间"] || "",
+                updateTimeMs: parseJobTime(job.updateTime || job["更新时间"] || "")
+            };
+        }
+
+        function sortJobsByUpdateTimeDesc(jobs) {
+            return jobs.sort((a, b) => {
+                return parseJobTime(b.updateTime) - parseJobTime(a.updateTime);
+            });
+        }
+
+        async function fetchWithTimeout(url, options = {}, timeoutMs = 45000) {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), timeoutMs);
+            try {
+                return await fetch(url, { ...options, signal: controller.signal });
+            } finally {
+                clearTimeout(timer);
+            }
+        }
+
+        function countUpdatesByDays(days) {
+            const now = Date.now();
+            return allJobs.filter(job => {
+                const updateMs = parseJobTime(job.updateTime);
+                if (!updateMs) return false;
+                const diffDays = (now - updateMs) / (1000 * 60 * 60 * 24);
+                return diffDays <= days && diffDays >= -1;
+            }).length;
+        }
+
+        function updateTopStats() {
+            document.getElementById("today-count").textContent = countUpdatesByDays(1);
+            document.getElementById("seven-days-count").textContent = countUpdatesByDays(7);
+            const rangeEl = document.getElementById("data-range-text");
+            if (!allJobs.length) {
+                rangeEl.textContent = "暂无数据";
+                return;
+            }
+            const sorted = [...allJobs].sort((a, b) => parseJobTime(b.updateTime) - parseJobTime(a.updateTime));
+            const latest = formatDate(sorted[0].updateTime);
+            const earliest = formatDate(sorted[sorted.length - 1].updateTime);
+            rangeEl.textContent = `${latest} 至 ${earliest}`;
+        }
+
+        function renderLoading(message = "正在加载实时岗位数据...") {
+            document.getElementById("data-container").innerHTML = `
+                <div class="bg-white p-12 text-center rounded-xl shadow-sm border border-gray-200">
+                    <div class="text-4xl mb-4">🚀</div>
+                    <div class="text-gray-500 font-bold text-lg">${escapeHTML(message)}</div>
+                    <div class="text-gray-400 text-sm mt-2">请稍等片刻</div>
+                </div>
+            `;
+        }
+
+        function updateDataStatus(status, message) {
+            const el = document.getElementById("data-status");
+            if (!el) return;
+            if (status === "full") {
+                el.className = "text-xs px-2 py-1 rounded bg-emerald-50 text-emerald-600 border border-emerald-100";
+                el.textContent = message || "完整数据已加载，筛选更准确";
+                return;
+            }
+            if (status === "loading") {
+                el.className = "text-xs px-2 py-1 rounded bg-orange-50 text-orange-600 border border-orange-100";
+                el.textContent = message || "正在加载完整数据...";
+                return;
+            }
+            if (status === "error") {
+                el.className = "text-xs px-2 py-1 rounded bg-red-50 text-red-500 border border-red-100";
+                el.textContent = message || "数据加载失败，可刷新重试";
+                return;
+            }
+            el.className = "text-xs px-2 py-1 rounded bg-slate-100 text-slate-500 border border-slate-200";
+            el.textContent = message || "当前基于最新 200 条";
+        }
+
+        function initFilters() {
+            renderFilterRow("filter-jobTag", filterData.jobTags, "jobTag");
+            renderFilterRow("filter-feature", filterData.features, "feature");
+            renderFilterRow("filter-industry", filterData.industries, "industry");
+            renderFilterRow("filter-city", filterData.cities, "city");
+            renderFilterRow("filter-position", filterData.positions, "position");
+            renderFilterRow("filter-companyType", filterData.companyTypes, "companyType");
+        }
+
+        function renderFilterRow(containerId, items, filterKey) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            const html = items.map(item => {
+                const isAllOption = (item === "全部" || item === "不限" || item === "全国");
+                let isActive = false;
+                
+                if (isAllOption) {
+                    isActive = currentFilters[filterKey].length === 0;
+                } else {
+                    isActive = currentFilters[filterKey].includes(item);
+                }
+
+                const activeClass = isActive
+                    ? "text-red-500 font-bold bg-red-50 px-2 py-0.5 rounded border border-red-100"
+                    : "text-gray-600 hover:text-blue-600 cursor-pointer px-2 py-0.5 border border-transparent";
+
+                return `
+                    <span
+                        class="filter-tag ${activeClass}"
+                        onclick="handleFilterClick('${filterKey}', '${item}')"
+                    >
+                        ${escapeHTML(item)}
+                    </span>
+                `;
+            }).join("");
+
+            container.innerHTML = html;
+        }
+
+        function handleGlobalSearch(value) {
+            currentFilters.globalKeyword = String(value || "").trim();
+            currentPage = 1;
+            applyFilters();
+        }
+
+        function handlePositionSearch(value) {
+            currentFilters.positionKeyword = String(value || "").trim();
+            currentPage = 1;
+            applyFilters();
+        }
+
+        function handleCitySearch(value) {
+            currentFilters.cityKeyword = String(value || "").trim();
+            currentPage = 1;
+            if (currentFilters.cityKeyword) {
+                currentFilters.city = [];
+                initFilters();
+            }
+            applyFilters();
+        }
+
+        function handleFilterClick(filterKey, value) {
+            const isAllOption = (value === "全部" || value === "不限" || value === "全国");
+
+            if (isAllOption) {
+                currentFilters[filterKey] = [];
+            } else {
+                const idx = currentFilters[filterKey].indexOf(value);
+                if (idx > -1) {
+                    currentFilters[filterKey].splice(idx, 1);
+                } else {
+                    currentFilters[filterKey].push(value);
+                }
+            }
+
+            currentPage = 1;
+
+            if (filterKey === "city") {
+                currentFilters.cityKeyword = "";
+                const cityInput = document.getElementById("city-search");
+                if (cityInput) cityInput.value = "";
+            }
+
+            initFilters();
+            applyFilters();
+        }
+
+        function resetFilters() {
+            currentFilters = {
+                globalKeyword: "",
+                jobTag: [],
+                feature: [],
+                industry: [],
+                city: [],
+                cityKeyword: "",
+                positionKeyword: "",
+                position: [],
+                companyType: []
+            };
+
+            currentPage = 1;
+
+            const globalInput = document.getElementById("global-search");
+            if (globalInput) globalInput.value = "";
+            
+            const positionInput = document.getElementById("position-search");
+            if (positionInput) positionInput.value = "";
+            
+            const cityInput = document.getElementById("city-search");
+            if (cityInput) cityInput.value = "";
+
+            initFilters();
+            applyFilters();
+            history.replaceState(null, "", window.location.pathname);
+        }
+
+        function buildShareUrl() {
+            const params = new URLSearchParams();
+
+            if (currentFilters.globalKeyword) params.set("q", currentFilters.globalKeyword);
+            if (currentFilters.jobTag.length > 0) params.set("tag", currentFilters.jobTag.join(","));
+            if (currentFilters.feature.length > 0) params.set("feature", currentFilters.feature.join(","));
+            if (currentFilters.industry.length > 0) params.set("industry", currentFilters.industry.join(","));
+            if (currentFilters.city.length > 0) params.set("city", currentFilters.city.join(","));
+            if (currentFilters.cityKeyword) params.set("cityKeyword", currentFilters.cityKeyword);
+            if (currentFilters.positionKeyword) params.set("positionKeyword", currentFilters.positionKeyword);
+            if (currentFilters.position.length > 0) params.set("position", currentFilters.position.join(","));
+            if (currentFilters.companyType.length > 0) params.set("companyType", currentFilters.companyType.join(","));
+
+            const query = params.toString();
+            return `${window.location.origin}${window.location.pathname}${query ? "?" + query : ""}`;
+        }
+
+        function copyCurrentFilterLink(button) {
+            const url = buildShareUrl();
+            const oldText = button.textContent;
+
+            function showCopied() {
+                button.textContent = "已复制链接";
+                button.classList.add("text-emerald-600");
+                setTimeout(() => {
+                    button.textContent = oldText;
+                    button.classList.remove("text-emerald-600");
+                }, 1200);
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(showCopied).catch(() => {
+                    fallbackCopyText(url);
+                    showCopied();
+                });
+            } else {
+                fallbackCopyText(url);
+                showCopied();
+            }
+        }
+
+        function applyFiltersFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+
+            currentFilters.globalKeyword = params.get("q") || "";
+            currentFilters.jobTag = params.get("tag") ? params.get("tag").split(",") : [];
+            currentFilters.feature = params.get("feature") ? params.get("feature").split(",") : [];
+            currentFilters.industry = params.get("industry") ? params.get("industry").split(",") : [];
+            currentFilters.city = params.get("city") ? params.get("city").split(",") : [];
+            currentFilters.cityKeyword = params.get("cityKeyword") || "";
+            currentFilters.positionKeyword = params.get("positionKeyword") || "";
+            currentFilters.position = params.get("position") ? params.get("position").split(",") : [];
+            currentFilters.companyType = params.get("companyType") ? params.get("companyType").split(",") : [];
+
+            const globalInput = document.getElementById("global-search");
+            if (globalInput) globalInput.value = currentFilters.globalKeyword;
+
+            const positionInput = document.getElementById("position-search");
+            if (positionInput) positionInput.value = currentFilters.positionKeyword;
+
+            const cityInput = document.getElementById("city-search");
+            if (cityInput) cityInput.value = currentFilters.cityKeyword;
+        }
+
+        function renderActiveFilterSummary() {
+            const el = document.getElementById("active-filter-summary");
+            if (!el) return;
+
+            const items = [];
+
+            if (currentFilters.globalKeyword) items.push(`搜索：${currentFilters.globalKeyword}`);
+            if (currentFilters.jobTag.length > 0) items.push(`标签：${currentFilters.jobTag.join(", ")}`);
+            if (currentFilters.feature.length > 0) items.push(`特色：${currentFilters.feature.join(" + ")}`);
+            if (currentFilters.industry.length > 0) items.push(`行业：${currentFilters.industry.join(", ")}`);
+            
+            if (currentFilters.cityKeyword) {
+                items.push(`城市搜索：${currentFilters.cityKeyword}`);
+            } else if (currentFilters.city.length > 0) {
+                items.push(`城市：${currentFilters.city.join(", ")}`);
+            }
+            
+            if (currentFilters.positionKeyword) items.push(`岗位搜索：${currentFilters.positionKeyword}`);
+            if (currentFilters.position.length > 0) items.push(`岗位方向：${currentFilters.position.join(", ")}`);
+            if (currentFilters.companyType.length > 0) items.push(`企业性质：${currentFilters.companyType.join(", ")}`);
+
+            if (!items.length) {
+                el.classList.add("hidden");
+                el.innerHTML = "";
+                return;
+            }
+
+            el.classList.remove("hidden");
+            el.innerHTML = `
+                <span class="font-bold text-gray-600">当前筛选：</span>
+                ${items.map(item => `<span class="inline-block mr-2 mb-1 px-2 py-1 rounded bg-gray-50 border border-gray-200 text-gray-700">${escapeHTML(item)}</span>`).join("")}
+            `;
+        }
+
+        async function fetchData() {
+            if (isLoadingFast) return;
+            try {
+                isLoadingFast = true;
+                renderLoading("正在加载最新 200 条岗位...");
+                updateDataStatus("loading", "正在加载最新...");
+                const res = await fetchWithTimeout(`/api/jobs?mode=fast&fastLimit=${FAST_LIMIT}`, {}, 20000);
+                if (!res.ok) throw new Error(`请求失败`);
+                const json = await res.json();
+                allJobs = Array.isArray(json.data) ? sortJobsByUpdateTimeDesc(json.data.map(normalizeJob)) : [];
+                isFullDataLoaded = Boolean(json.isFullData);
+                dataScope = isFullDataLoaded ? "full" : "fast";
+                currentPage = 1;
+                updateTopStats();
+                applyFilters();
+                if (isFullDataLoaded) {
+                    updateDataStatus("full", `数据已加载，共 ${allJobs.length} 条`);
+                } else {
+                    updateDataStatus("loading", "已显示最新数据，后台加载完整数据...");
+                    preloadFullData();
+                }
+            } catch (err) {
+                updateDataStatus("error", "数据加载失败");
+            } finally {
+                isLoadingFast = false;
+            }
+        }
+
+        async function preloadFullData() {
+            if (isLoadingFull || isFullDataLoaded) return;
+            try {
+                isLoadingFull = true;
+                const res = await fetchWithTimeout(`/api/jobs?mode=full&fullLimit=${FULL_LIMIT}`, {}, 45000);
+                if (!res.ok) return;
+                const json = await res.json();
+                const fullJobs = Array.isArray(json.data) ? sortJobsByUpdateTimeDesc(json.data.map(normalizeJob)) : [];
+                if (fullJobs.length >= allJobs.length) {
+                    allJobs = fullJobs;
+                    isFullDataLoaded = Boolean(json.isFullData);
+                    dataScope = "full";
+                    if (currentPage > 1) {
+                        currentPage = Math.min(currentPage, Math.max(1, Math.ceil(fullJobs.length / pageSize)));
+                    }
+                    updateTopStats();
+                    applyFilters();
+                    if (json.isFullData) {
+                        updateDataStatus("full", `完整数据加载完毕`);
+                    } else {
+                        updateDataStatus("full", `已拉取大量历史数据`);
+                    }
+                }
+            } catch (err) {
+                // Background fail, skip
+            } finally {
+                isLoadingFull = false;
+            }
+        }
+
+        function applyFilters() {
+            filteredJobs = allJobs.filter(job => {
+                const globalKeyword = currentFilters.globalKeyword || "";
+                const positionKeyword = currentFilters.positionKeyword || "";
+                const cityKeyword = currentFilters.cityKeyword || "";
+
+                const matchGlobal = matchGlobalKeyword(job, globalKeyword);
+
+                const matchSelectedJobTag = matchJobTagArray(job, currentFilters.jobTag);
+                
+                const matchSelectedFeature = matchFeatureArray(job, currentFilters.feature);
+
+                const matchIndustry = currentFilters.industry.length === 0 || 
+                    currentFilters.industry.some(ind => includesKeyword(job.industry, ind));
+
+                const matchCity = cityKeyword
+                    ? includesKeyword(job.city, cityKeyword)
+                    : (currentFilters.city.length === 0 || currentFilters.city.some(c => includesKeyword(job.city, c)));
+
+                const matchPositionKeyword =
+                    !positionKeyword ||
+                    includesKeyword(job.content, positionKeyword) ||
+                    includesKeyword(job.tag, positionKeyword);
+
+                const matchPosition = currentFilters.position.length === 0 || 
+                    currentFilters.position.some(p => includesKeyword(job.content, p));
+
+                const matchCompanyType = currentFilters.companyType.length === 0 || 
+                    currentFilters.companyType.some(ct => includesKeyword(job.companyType, ct));
+
+                return (
+                    matchGlobal &&
+                    matchSelectedJobTag &&
+                    matchSelectedFeature &&
+                    matchIndustry &&
+                    matchCity &&
+                    matchPositionKeyword &&
+                    matchPosition &&
+                    matchCompanyType
+                );
+            });
+
+            filteredJobs = sortJobsByUpdateTimeDesc(filteredJobs);
+            totalRecords = filteredJobs.length;
+            totalPages = Math.max(1, Math.ceil(totalRecords / pageSize));
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            renderActiveFilterSummary();
+            renderCurrentPage();
+            renderPagination();
+        }
+
+        function renderCurrentPage() {
+            const start = (currentPage - 1) * pageSize;
+            const end = start + pageSize;
+            const pageJobs = filteredJobs.slice(start, end);
+            document.getElementById("total-records").textContent = totalRecords;
+            document.getElementById("current-page").textContent = currentPage;
+            document.getElementById("total-pages").textContent = totalPages;
+            renderJobList(pageJobs);
+        }
+
+        function goToPage(page) {
+            if (page < 1 || page > totalPages || page === currentPage) return;
+            currentPage = page;
+            renderCurrentPage();
+            renderPagination();
+            const container = document.getElementById("data-container");
+            if (container) {
+                const topPosition = container.getBoundingClientRect().top + window.scrollY - 80;
+                window.scrollTo({ top: topPosition, behavior: "smooth" });
+            } else {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+        }
+
+        function renderPagination() {
+            const container = document.getElementById("pagination-container");
+            if (totalPages <= 1) {
+                container.innerHTML = "";
+                return;
+            }
+            const prevDisabled = currentPage <= 1;
+            const nextDisabled = currentPage >= totalPages;
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, currentPage + 2);
+            let pageButtons = "";
+
+            if (startPage > 1) {
+                pageButtons += `<button onclick="goToPage(1)" class="px-3 py-2 rounded-lg text-sm font-bold border bg-white text-gray-600 border-gray-200 hover:text-red-500 hover:border-red-200">1</button>`;
+                if (startPage > 2) pageButtons += `<span class="px-2 text-gray-400">...</span>`;
+            }
+
+            for (let p = startPage; p <= endPage; p++) {
+                const activeClass = p === currentPage
+                    ? "bg-red-500 text-white border-red-500 shadow-sm shadow-red-200"
+                    : "bg-white text-gray-600 border-gray-200 hover:text-red-500 hover:border-red-200";
+                pageButtons += `<button onclick="goToPage(${p})" class="px-3 py-2 rounded-lg text-sm font-bold border ${activeClass} transition-all">${p}</button>`;
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) pageButtons += `<span class="px-2 text-gray-400">...</span>`;
+                pageButtons += `<button onclick="goToPage(${totalPages})" class="px-3 py-2 rounded-lg text-sm font-bold border bg-white text-gray-600 border-gray-200 hover:text-red-500 hover:border-red-200">${totalPages}</button>`;
+            }
+
+            container.innerHTML = `
+                <div class="flex flex-wrap items-center justify-center gap-2">
+                    <button onclick="goToPage(${currentPage - 1})" ${prevDisabled ? "disabled" : ""} class="px-4 py-2 rounded-lg text-sm font-bold border ${prevDisabled ? "bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed" : "bg-white text-gray-600 border-gray-200 hover:text-red-500 hover:border-red-200 transition-all"}">上一页</button>
+                    ${pageButtons}
+                    <button onclick="goToPage(${currentPage + 1})" ${nextDisabled ? "disabled" : ""} class="px-4 py-2 rounded-lg text-sm font-bold border ${nextDisabled ? "bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed" : "bg-white text-gray-600 border-gray-200 hover:text-red-500 hover:border-red-200 transition-all"}">下一页</button>
+                </div>
+            `;
+        }
+
+        function copyApplyLinkFromButton(button) {
+            // 获取已存的JobID，并标记为已阅
+            const jobId = button.dataset.jobid;
+            if (jobId) markAsRead(jobId);
+
+            const encoded = button.dataset.copy || button.dataset.url || "";
+            const text = decodeURIComponent(encoded);
+            if (!text) return;
+            const oldText = button.textContent;
+            const copiedText = button.dataset.copiedText || "已复制";
+            
+            function showCopied() {
+                button.textContent = copiedText;
+                button.classList.add("text-emerald-600", "border-emerald-200", "bg-emerald-50");
+                setTimeout(() => {
+                    button.textContent = oldText;
+                    button.classList.remove("text-emerald-600", "border-emerald-200", "bg-emerald-50");
+                }, 1200);
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(showCopied).catch(() => {
+                    fallbackCopyText(text); showCopied();
+                });
+            } else {
+                fallbackCopyText(text); showCopied();
+            }
+        }
+
+        function fallbackCopyText(text) {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.style.position = "fixed";
+            textarea.style.left = "-9999px";
+            textarea.style.top = "-9999px";
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            try { document.execCommand("copy"); } catch (err) {}
+            document.body.removeChild(textarea);
+        }
+
+        function renderJobList(records) {
+            const container = document.getElementById("data-container");
+            if (records.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white p-12 text-center rounded-xl shadow-sm border border-gray-200">
+                        <div class="text-4xl mb-4">📭</div>
+                        <div class="text-gray-500 font-bold text-lg">没有找到符合条件的岗位</div>
+                        <div class="text-gray-400 text-sm mt-2">请尝试放宽筛选条件</div>
+                    </div>
+                `;
+                return;
+            }
+            let tableHtml = `
+                <div class="hidden md:block overflow-x-auto bg-white rounded-xl shadow-sm border border-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200 text-sm text-left align-middle">
+                        <thead class="bg-gray-50 text-gray-500 font-medium">
+                            <tr>
+                                <th class="px-6 py-4 whitespace-nowrap">更新时间</th>
+                                <th class="px-6 py-4 whitespace-nowrap">公司名称</th>
+                                <th class="px-6 py-4 text-center whitespace-nowrap">企业性质</th>
+                                <th class="px-6 py-4">招聘岗位</th>
+                                <th class="px-6 py-4 whitespace-nowrap">工作城市</th>
+                                <th class="px-6 py-4 whitespace-nowrap">行业</th>
+                                <th class="px-6 py-4 text-center whitespace-nowrap">投递链接</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+            `;
+            let cardsHtml = `<div class="md:hidden flex flex-col gap-4">`;
+            records.forEach(item => {
+                const companyName = escapeHTML(item.companyName);
+                const companyType = escapeHTML(item.companyType);
+                const content = escapeHTML(item.content);
+                const city = escapeHTML(item.city);
+                const industry = escapeHTML(item.industry);
+                const tag = escapeHTML(item.tag);
+                const updateTime = escapeHTML(formatDate(item.updateTime));
+                const applyInfo = getApplyInfo(item.applyText || item.url, item.url, item.applyType);
+                const url = applyInfo.url;
+                const rawUrlText = escapeHTML(applyInfo.text || "-");
+                const copyValue = encodeURIComponent(applyInfo.copyText || "");
+                const recommend = getRecommendTag(item);
+                const recommendText = escapeHTML(recommend.text);
+                const recommendClass = recommend.className;
+                const majorTag = item.noMajor || getMajorTag(item.content);
+                const safeMajorTag = escapeHTML(majorTag);
+                
+                // === 判断当前岗位是否已阅 ===
+                const jobId = getJobHashId(item);
+                const isRead = readJobs.includes(jobId);
+                const readRowClass = isRead ? "opacity-60 bg-gray-50/50" : "bg-white";
+                const readBadgeClass = isRead ? "" : "hidden";
+                
+                let copyButton = "";
+                
+                if (applyInfo.type === "url") {
+                    copyButton = `<button type="button" data-copy="${copyValue}" data-jobid="${jobId}" data-copied-text="已复制链接" onclick="copyApplyLinkFromButton(this)" class="inline-flex items-center justify-center px-2 py-1 rounded border border-gray-200 text-[11px] text-gray-500 hover:text-red-500 hover:border-red-200 bg-white transition-colors">复制链接</button>`;
+                } else if (applyInfo.type === "email") {
+                    copyButton = `<button type="button" data-copy="${copyValue}" data-jobid="${jobId}" data-copied-text="已复制邮箱" onclick="copyApplyLinkFromButton(this)" class="inline-flex items-center justify-center px-2 py-1 rounded border border-emerald-200 text-[11px] text-emerald-600 hover:text-emerald-700 hover:border-emerald-300 bg-emerald-50 transition-colors">复制邮箱</button>`;
+                } else if (applyInfo.type === "text") {
+                    copyButton = `<button type="button" data-copy="${copyValue}" data-jobid="${jobId}" data-copied-text="已复制方式" onclick="copyApplyLinkFromButton(this)" class="inline-flex items-center justify-center px-2 py-1 rounded border border-gray-200 text-[11px] text-gray-500 hover:text-red-500 hover:border-red-200 bg-white transition-colors">复制方式</button>`;
+                }
+
+                const pcApplyLink = applyInfo.type === "url"
+                    ? `<div class="flex flex-col items-center gap-1.5"><a href="${url}" target="_blank" rel="noopener noreferrer" onclick="markAsRead('${jobId}')" class="inline-block text-red-500 hover:text-red-700 font-bold underline-offset-4 hover:underline">一键直达</a>${copyButton}</div>`
+                    : `<div class="flex flex-col items-center gap-1.5"><span class="text-gray-500 font-medium text-[11px] leading-tight block max-w-[140px] truncate" title="${rawUrlText}">${rawUrlText}</span>${copyButton}</div>`;
+
+                const mobileApplyLink = applyInfo.type === "url"
+                    ? `<a href="${url}" target="_blank" rel="noopener noreferrer" onclick="markAsRead('${jobId}')" class="shrink-0 px-4 py-2 bg-red-500 text-white text-sm font-bold rounded-lg active:bg-red-600 shadow-sm shadow-red-200">一键直达</a>${copyButton}`
+                    : `<div class="px-3 py-2 text-gray-600 font-medium text-[11px] bg-gray-50 border border-gray-100 rounded-lg truncate flex-1">${rawUrlText}</div>${copyButton}`;
+
+                let pcTagsHtml = `<span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold border ${recommendClass}">${recommendText}</span>`;
+                if (tag && tag !== "-") pcTagsHtml += `<span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-700 border border-gray-200">${tag}</span>`;
+                if (majorTag) pcTagsHtml += `<span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">${safeMajorTag}</span>`;
+
+                tableHtml += `
+                    <tr id="row-${jobId}" class="hover:bg-blue-50/50 transition-colors ${readRowClass}">
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500 align-middle">${updateTime}</td>
+                        <td class="px-6 py-4 text-gray-900 font-bold max-w-[280px] align-middle" title="${companyName}">
+                            <div class="truncate text-[15px]">
+                                ${companyName}
+                                <span class="read-badge-${jobId} ${readBadgeClass} ml-1 px-1 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-gray-500 align-middle">👀 已阅</span>
+                            </div>
+                            <div class="mt-1.5 flex flex-wrap gap-y-1">${pcTagsHtml}</div>
+                        </td>
+                        <td class="px-6 py-4 text-center align-middle whitespace-nowrap">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border border-gray-200 text-gray-600 bg-white shadow-sm">${companyType}</span>
+                        </td>
+                        <td class="px-6 py-4 text-gray-700 w-[260px] max-w-[260px] truncate align-middle font-medium" title="${content}">${content}</td>
+                        <td class="px-6 py-4 text-gray-600 max-w-[150px] truncate align-middle" title="${city}">${city}</td>
+                        <td class="px-6 py-4 whitespace-nowrap align-middle">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">${industry}</span>
+                        </td>
+                        <td class="px-6 py-4 text-center align-middle whitespace-nowrap">${pcApplyLink}</td>
+                    </tr>
+                `;
+
+                cardsHtml += `
+                    <div id="card-${jobId}" class="p-4 rounded-2xl shadow-sm border border-gray-200 relative overflow-hidden transition-all ${readRowClass}">
+                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-red-400"></div>
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-base font-bold text-gray-900 leading-tight pr-4">
+                                ${companyName}
+                                <span class="read-badge-${jobId} ${readBadgeClass} ml-1 px-1 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-gray-500 align-middle">👀 已阅</span>
+                            </h3>
+                            <span class="shrink-0 px-2 py-1 rounded text-[10px] font-bold border ${recommendClass}">${recommendText}</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-4 line-clamp-2">
+                            <span class="font-bold text-gray-800">在招岗位：</span>${content}
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4 border-b border-gray-100 pb-4">
+                            ${tag && tag !== "-" ? `<span class="px-2 py-1 rounded-md text-[11px] font-bold bg-gray-50 text-gray-600 border border-gray-100">${tag}</span>` : ""}
+                            ${majorTag ? `<span class="px-2 py-1 rounded-md text-[11px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100">${safeMajorTag}</span>` : ""}
+                            <span class="px-2 py-1 rounded-md text-[11px] bg-purple-50 text-purple-600 border border-purple-100">🏷️ ${companyType}</span>
+                            <span class="px-2 py-1 rounded-md text-[11px] bg-gray-50 text-gray-600 border border-gray-100">📍 ${city}</span>
+                            <span class="px-2 py-1 rounded-md text-[11px] bg-blue-50 text-blue-600 border border-blue-100">🏢 ${industry}</span>
+                        </div>
+                        <div class="flex justify-between items-end gap-2 mt-2">
+                            <div class="shrink-0 text-[10px] text-gray-400">🕒 ${updateTime}</div>
+                            <div class="flex flex-1 gap-2 items-center justify-end flex-wrap">${mobileApplyLink}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            tableHtml += `</tbody></table></div>`;
+            cardsHtml += `</div>`;
+            container.innerHTML = tableHtml + cardsHtml;
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            applyFiltersFromUrl();
+            initFilters();
+            await fetchData();
+        });
+    </script>
+</body>
+</html>
