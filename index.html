@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>志愿护航 - 专业就业直通车</title>
+    <title>志愿护航 - 本硕专业就业直通车</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         // 配置 Tailwind 品牌色
@@ -55,7 +55,7 @@
             <div class="flex items-center gap-3">
                 <img src="/logo-text.jpg" alt="志愿护航" class="h-10 sm:h-14 object-contain rounded" onerror="this.src='https://via.placeholder.com/200x50/eff6ff/1e40af?text=志愿护航'">
                 <div class="hidden sm:block h-6 w-px bg-gray-300 mx-3"></div>
-                <span class="hidden sm:inline-block text-sm sm:text-base font-bold text-gray-600 tracking-wide">专业 · 就业直通车</span>
+                <span class="hidden sm:inline-block text-sm sm:text-base font-bold text-gray-600 tracking-wide">本硕专业 · 就业直通车</span>
             </div>
             <div class="text-xs sm:text-sm font-medium text-brand-600 bg-brand-50 px-3 py-1.5 rounded-full border border-brand-100">
                 🚀 数据实时接驳名企库
@@ -63,7 +63,7 @@
         </div>
     </nav>
 
-    <div class="bg-gradient-to-br from-brand-900 via-brand-800 to-brand-600 text-white pb-20 pt-12 relative overflow-hidden">
+    <div class="bg-gradient-to-br from-brand-900 via-brand-800 to-brand-600 text-white pb-24 pt-12 relative overflow-hidden shadow-inner">
         <div class="absolute top-0 left-10 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl"></div>
         <div class="absolute bottom-0 right-10 w-96 h-96 bg-brand-400 opacity-20 rounded-full blur-3xl"></div>
         
@@ -71,32 +71,50 @@
             <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
                 <span class="text-brand-300">志愿护航</span> | 你的专业能找什么工作？
             </h1>
-            <p class="text-brand-100 text-sm sm:text-base leading-relaxed opacity-90 mb-10 max-w-2xl mx-auto font-medium">
-                聚合全网名企数据，打通“<span class="text-white border-b border-brand-300 pb-0.5">专业 - 市场岗位</span>”匹配链路。<br class="hidden sm:block">一键智搜，让每一次投递都精准无误。
+            <p class="text-brand-100 text-xs sm:text-base leading-relaxed opacity-90 mb-8 max-w-2xl mx-auto font-medium">
+                教育部2026权威专业库联动！打通“<span class="text-white border-b border-brand-300 pb-0.5">学科门类 - 核心专业 - 市场名企岗位</span>”匹配链路，专为志愿填报家庭深度定制。
             </p>
             
-            <div class="relative max-w-3xl mx-auto shadow-2xl rounded-full group">
-                <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                    <svg class="w-6 h-6 text-gray-400 group-focus-within:text-brand-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <div class="max-w-3xl mx-auto bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-3xl border border-white/20 shadow-2xl">
+                <div class="grid grid-cols-2 gap-3 mb-3.5">
+                    <div class="flex flex-col text-left">
+                        <label class="text-xs text-brand-200 font-bold mb-1.5 ml-1">1. 选择学科门类</label>
+                        <select id="major-category-select" onchange="handleCategoryChange(this.value)" class="w-full bg-white text-gray-800 rounded-xl px-3 py-2.5 sm:py-3 text-xs sm:text-sm font-bold outline-none border border-transparent focus:border-brand-400 shadow-sm transition-all cursor-pointer">
+                            <option value="">-- 请选择学科门类 --</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col text-left">
+                        <label class="text-xs text-brand-200 font-bold mb-1.5 ml-1">2. 选择细分专业</label>
+                        <select id="sub-major-select" onchange="handleSubMajorChange(this.value)" class="w-full bg-white text-gray-800 rounded-xl px-3 py-2.5 sm:py-3 text-xs sm:text-sm font-bold outline-none border border-transparent focus:border-brand-400 shadow-sm transition-all cursor-pointer" disabled>
+                            <option value="">-- 请先选择门类 --</option>
+                        </select>
+                    </div>
                 </div>
-                <input
-                    id="hero-global-search"
-                    type="text"
-                    placeholder="输入你的专业 (如: 汉语言、自动化) / 岗位 / 城市 / 公司名称..."
-                    class="w-full pl-14 pr-32 sm:pr-40 py-4 sm:py-5 rounded-full text-gray-900 text-sm sm:text-lg border-2 border-transparent outline-none transition-all focus:border-brand-400 focus:ring-4 focus:ring-brand-200 bg-white placeholder-gray-400 font-medium"
-                    oninput="handleHeroSearch(this.value)"
-                    onkeydown="if(event.key==='Enter') executeSearchClick()"
-                />
-                <button onclick="executeSearchClick()" class="absolute right-2 top-2 bottom-2 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white px-6 sm:px-8 rounded-full font-bold shadow-md transition-all text-sm sm:text-base flex items-center gap-1 active:scale-95">
-                    智能匹配
-                </button>
+
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-400 group-focus-within:text-brand-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <input
+                        id="hero-global-search"
+                        type="text"
+                        placeholder="选定专业后，可在此继续叠加输入城市、公司名称检索（如：北京 国企）..."
+                        class="w-full pl-12 pr-28 sm:pr-36 py-3.5 sm:py-4 rounded-xl text-gray-900 text-xs sm:text-base border border-transparent outline-none transition-all focus:border-brand-500 focus:ring-4 focus:ring-brand-200 bg-white placeholder-gray-400 font-medium shadow-inner"
+                        oninput="handleHeroSearch(this.value)"
+                        onkeydown="if(event.key==='Enter') executeSearchClick()"
+                    />
+                    <button onclick="executeSearchClick()" class="absolute right-1.5 top-1.5 bottom-1.5 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white px-5 sm:px-7 rounded-lg font-bold shadow-md transition-all text-xs sm:text-sm flex items-center gap-1 active:scale-95">
+                        智能匹配
+                    </button>
+                </div>
             </div>
+
             <div class="mt-4 text-xs sm:text-sm text-brand-200 flex items-center justify-center gap-2 flex-wrap">
-                <span>热门检索：</span>
-                <span class="cursor-pointer hover:text-white border border-brand-400/50 px-2 py-0.5 rounded-full transition-colors" onclick="setSearch('计算机')">计算机</span>
-                <span class="cursor-pointer hover:text-white border border-brand-400/50 px-2 py-0.5 rounded-full transition-colors" onclick="setSearch('汉语言')">汉语言</span>
-                <span class="cursor-pointer hover:text-white border border-brand-400/50 px-2 py-0.5 rounded-full transition-colors" onclick="setSearch('自动化')">自动化</span>
-                <span class="cursor-pointer hover:text-white border border-brand-400/50 px-2 py-0.5 rounded-full transition-colors" onclick="setSearch('腾讯')">腾讯</span>
+                <span>精选检索：</span>
+                <span class="cursor-pointer hover:text-white border border-brand-400/50 px-2 py-0.5 rounded-full transition-colors" onclick="setShortcutSearch('工学', '计算机科学与技术')">计算机科学与技术</span>
+                <span class="cursor-pointer hover:text-white border border-brand-400/50 px-2 py-0.5 rounded-full transition-colors" onclick="setShortcutSearch('工学', '自动化')">自动化</span>
+                <span class="cursor-pointer hover:text-white border border-brand-400/50 px-2 py-0.5 rounded-full transition-colors" onclick="setShortcutSearch('中国语言文学类', '汉语言文学')">汉语言文学</span>
+                <span class="cursor-pointer hover:text-white border border-brand-400/50 px-2 py-0.5 rounded-full transition-colors" onclick="setShortcutSearch('金融学类', '金融学')">金融学</span>
             </div>
         </div>
     </div>
@@ -104,46 +122,46 @@
     <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 -mt-12 relative z-20">
 
         <div class="grid grid-cols-3 gap-3 sm:gap-6 mb-8">
-            <div class="bg-white rounded-2xl border border-gray-100 shadow-lg px-4 py-5 sm:p-6 flex flex-col justify-between transition-transform duration-300 hover:-translate-y-1">
-                <div class="flex items-center gap-2 mb-2">
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-lg px-3 py-4 sm:p-6 flex flex-col justify-between transition-transform duration-300 hover:-translate-y-1">
+                <div class="flex items-center gap-1.5 mb-2">
                     <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                    <div class="text-xs sm:text-sm text-gray-500 font-medium">今日新增匹配</div>
+                    <div class="text-[11px] sm:text-sm text-gray-500 font-medium">今日新增匹配</div>
                 </div>
-                <div class="flex items-baseline gap-1.5">
-                    <span id="today-count" class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">0</span>
-                    <span class="text-xs sm:text-sm text-gray-400">个</span>
+                <div class="flex items-baseline gap-1">
+                    <span id="today-count" class="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">0</span>
+                    <span class="text-xs text-gray-400">个</span>
                 </div>
             </div>
-            <div class="bg-white rounded-2xl border border-gray-100 shadow-lg px-4 py-5 sm:p-6 flex flex-col justify-between transition-transform duration-300 hover:-translate-y-1">
-                <div class="flex items-center gap-2 mb-2">
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-lg px-3 py-4 sm:p-6 flex flex-col justify-between transition-transform duration-300 hover:-translate-y-1">
+                <div class="flex items-center gap-1.5 mb-2">
                     <div class="w-2 h-2 rounded-full bg-brand-500"></div>
-                    <div class="text-xs sm:text-sm text-gray-500 font-medium">近 7 日更新</div>
+                    <div class="text-[11px] sm:text-sm text-gray-500 font-medium">近 7 日更新</div>
                 </div>
-                <div class="flex items-baseline gap-1.5">
-                    <span id="seven-days-count" class="text-3xl sm:text-4xl font-extrabold text-brand-600 tracking-tight">0</span>
-                    <span class="text-xs sm:text-sm text-gray-400">个</span>
+                <div class="flex items-baseline gap-1">
+                    <span id="seven-days-count" class="text-2xl sm:text-4xl font-extrabold text-brand-600 tracking-tight">0</span>
+                    <span class="text-xs text-gray-400">个</span>
                 </div>
             </div>
-            <div class="bg-white rounded-2xl border border-gray-100 shadow-lg px-4 py-5 sm:p-6 flex flex-col justify-between transition-transform duration-300 hover:-translate-y-1 bg-gradient-to-br from-white to-gray-50">
-                <div class="flex items-center gap-2 mb-2">
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-lg px-3 py-4 sm:p-6 flex flex-col justify-between transition-transform duration-300 hover:-translate-y-1 bg-gradient-to-br from-white to-gray-50">
+                <div class="flex items-center gap-1.5 mb-2">
                     <div class="w-2 h-2 rounded-full bg-purple-500"></div>
-                    <div class="text-xs sm:text-sm text-gray-500 font-medium">当前数据周期</div>
+                    <div class="text-[11px] sm:text-sm text-gray-500 font-medium">数据接驳范围</div>
                 </div>
-                <div id="data-range-text" class="text-sm sm:text-base font-bold text-gray-800 leading-tight">
-                    正在加载...
+                <div id="data-range-text" class="text-xs sm:text-base font-bold text-gray-800 leading-tight truncate">
+                    正在同步...
                 </div>
             </div>
         </div>
 
-        <div class="bg-white p-5 sm:p-7 rounded-2xl shadow-md border border-gray-100 mb-8 text-sm">
+        <div class="bg-white p-5 rounded-2xl shadow-md border border-gray-100 mb-8 text-sm">
             <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
-                <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                <h2 class="text-base sm:text-lg font-bold text-gray-900 flex items-center gap-2">
                     <svg class="w-5 h-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
-                    详细维度筛选
+                    基础物理条件过滤
                 </h2>
                 <div class="flex items-center gap-3">
                     <span id="data-status" class="hidden sm:inline-block text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-500 border border-gray-200">
-                        数据状态
+                        正在拉取实时云端数据...
                     </span>
                     <button onclick="resetFilters()" class="text-sm text-gray-500 hover:text-brand-600 transition-colors flex items-center gap-1">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
@@ -163,13 +181,13 @@
                 </div>
                 <div class="flex items-start gap-2 sm:gap-4">
                     <span class="text-gray-500 font-medium w-16 shrink-0 mt-1">所属行业</span>
-                    <div id="filter-industry" class="flex flex-wrap gap-2 sm:gap-3 flex-1 max-h-32 overflow-y-auto no-scrollbar pb-2"></div>
+                    <div id="filter-industry" class="flex flex-wrap gap-2 sm:gap-3 flex-1 max-h-32 overflow-y-auto no-scrollbar pb-1.5"></div>
                 </div>
                 <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
                     <span class="text-gray-500 font-medium w-16 shrink-0 mt-1">工作城市</span>
                     <div class="flex-1">
                         <div class="mb-3 relative">
-                            <input id="city-search" type="text" placeholder="🔍 快速过滤城市" oninput="handleCitySearch(this.value)" class="w-full sm:w-64 px-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50 text-xs outline-none transition-all focus:border-brand-400 focus:bg-white" />
+                            <input id="city-search" type="text" placeholder="🔍 快速关键字查找城市" oninput="handleCitySearch(this.value)" class="w-full sm:w-64 px-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50 text-xs outline-none transition-all focus:border-brand-400 focus:bg-white" />
                         </div>
                         <div id="filter-city" class="flex flex-wrap gap-2 sm:gap-3"></div>
                     </div>
@@ -181,17 +199,16 @@
             </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 px-1">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5 px-1">
             <div class="text-sm text-gray-600 flex items-center gap-2 flex-wrap">
-                <div class="h-4 w-1 bg-brand-500 rounded-full hidden sm:block"></div>
-                <span id="major-match-tip" class="hidden font-bold text-brand-600 border border-brand-200 bg-brand-50 px-2 py-0.5 rounded">✨ 已智能拓展专业相关岗位</span>
-                <span>当前共匹配到 <span id="total-records" class="text-brand-600 font-extrabold text-lg mx-1">0</span> 个岗位</span>
-                <span class="text-gray-400 ml-2 text-xs">第 <span id="current-page">1</span> / <span id="total-pages">1</span> 页</span>
+                <span id="major-match-tip" class="hidden font-bold bg-gradient-to-r from-brand-600 to-brand-500 text-white shadow-sm px-2.5 py-0.5 rounded text-xs">✨ 已启动本硕专业智能对口映射</span>
+                <span>全库共成功检索到 <span id="total-records" class="text-brand-600 font-extrabold text-lg mx-0.5">0</span> 条有效数据</span>
+                <span class="text-gray-400 text-xs">页码: <span id="current-page">1</span> / <span id="total-pages">1</span></span>
             </div>
 
-            <button onclick="copyCurrentFilterLink(this)" class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-brand-600 transition-colors shadow-sm">
+            <button onclick="copyCurrentFilterLink(this)" class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-brand-600 transition-colors shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
-                分享此匹配结果
+                分享当前匹配条件
             </button>
         </div>
 
@@ -199,56 +216,121 @@
             <div class="bg-white p-16 text-center rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
                 <svg class="animate-spin h-10 w-10 text-brand-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                 <div class="text-gray-900 font-bold text-lg">系统正在接驳企业数据库...</div>
-                <div class="text-gray-400 text-sm mt-2">首次加载可能需要几秒钟，请稍候</div>
+                <div class="text-gray-400 text-sm mt-2">首次同步可能需要几秒钟，请稍候</div>
             </div>
         </div>
 
-        <div id="pagination-container" class="mt-8 mb-12 flex justify-center"></div>
+        <div id="pagination-container" class="mt-8 flex justify-center"></div>
 
     </div>
 
     <footer class="border-t border-gray-200 bg-white py-8 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-400">
-            &copy; 2026 志愿护航 版权所有. 提供专业、高效的大学生就业服务.
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-400 font-medium">
+            &copy; 2026 志愿护航 版权所有. 专为高价值志愿填报提供全闭环就业大数据支持.
         </div>
     </footer>
 
     <script>
+        // ==========================================
+        // 2026年教育部最新权威《普通高等学校本科专业目录》大类字典
+        // ==========================================
+        const majorDatabase = {
+            "工学": ["计算机科学与技术", "软件工程", "网络工程", "信息安全", "物联网工程", "数字媒体技术", "智能科学与技术", "数据科学与大数据技术", "具身智能", "区块链工程", "电子信息工程", "电子科学与技术", "通信工程", "微电子科学与工程", "光电信息科学与工程", "集成电路设计与集成系统", "自动化", "机器人工程", "电气工程及其自动化", "智能电网信息工程", "机械设计制造及其自动化", "车辆工程", "智能制造工程", "土木工程", "建筑学", "城乡规划"],
+            "理学": ["数学与应用数学", "信息与计算科学", "数据计算及应用", "物理学", "应用物理学", "化学", "应用化学", "生物科学", "生物技术", "地理信息科学", "心理学", "应用心理学", "统计学", "应用统计学"],
+            "经济学": ["经济学", "经济统计学", "数字经济", "金融学", "金融工程", "金融数学", "金融科技", "数字金融", "国际经济与贸易", "数字贸易"],
+            "管理学": ["工商管理", "市场营销", "会计学", "财务管理", "国际商务", "人力资源管理", "审计学", "行政管理", "物流管理", "供应链管理", "电子商务", "跨境电子商务", "数字文旅"],
+            "中国语言文学类": ["汉语言文学", "汉语言", "汉语国际教育", "秘书学", "网络与新媒体"],
+            "新闻传播学类": ["新闻学", "广播电视学", "广告学", "传播学", "编辑出版学", "数字出版"],
+            "外国语言文学类": ["英语", "商务英语", "翻译", "日语", "德语", "法语", "韩语/朝鲜语", "西班牙语"],
+            "法学": ["法学", "知识产权", "纪检监察", "国际法", "社会学", "社会工作", "政治学与行政学"],
+            "交叉学科(2026前沿)": ["未来机器人", "交叉工程", "具身智能", "脑机科学与技术", "商业人工智能"],
+            "医药/教育/艺术/其他": ["临床医学", "口腔医学", "药学", "护理学", "教育学", "教育技術学", "小学教育", "播音与主持艺术", "动画", "视觉传达设计", "环境设计", "UI/交互设计"]
+        };
+
+        // 专业映射到招聘系统中的高频对口检索核心词
         const majorToJobMap = {
-            "计算机": ["研发", "开发", "前端", "后端", "测试", "算法", "运维", "C++", "Java", "Python", "数据分析", "产品经理", "全栈", "客户端"],
-            "软件工程": ["研发", "开发", "前端", "后端", "测试", "算法", "运维", "全栈", "架构"],
-            "电子信息": ["硬件", "嵌入式", "通信", "测试", "芯片", "半导体", "FPGA", "射频"],
-            "自动化": ["自动化", "控制", "电气", "机器人", "硬件", "PLC", "电机", "机电"],
-            "人工智能": ["算法", "数据分析", "机器学习", "深度学习", "视觉", "NLP", "模型", "大语言"],
-            "网络工程": ["网络", "安全", "运维", "通信", "渗透", "技术支持"],
-            "物联网": ["嵌入式", "物联网", "硬件", "C语言", "单片机"],
-            "金融": ["投资", "融资", "券商", "银行", "风控", "行研", "顾问", "财富", "理财", "分析师"],
-            "经济学": ["分析师", "行研", "咨询", "银行", "运营", "管培生", "宏观"],
-            "会计": ["财务", "审计", "税务", "结算", "出纳", "资金", "内控"],
-            "财务管理": ["财务", "审计", "税务", "预算", "分析", "会计"],
-            "工商管理": ["管培生", "运营", "市场", "销售", "人力资源", "行政", "商务", "储备干部"],
-            "人力资源": ["招聘", "HR", "员工关系", "培训", "薪酬", "绩效", "人事", "政委"],
-            "市场营销": ["市场", "销售", "BD", "商务", "策划", "品牌", "公关", "渠道"],
-            "电子商务": ["电商", "运营", "淘宝", "抖音", "主播", "直播", "跨境", "供应链"],
-            "汉语言": ["文案", "编辑", "新媒体", "运营", "策划", "行政", "人事", "公关", "记者"],
-            "新闻": ["记者", "编辑", "新媒体", "公关", "媒介", "编导", "文案", "舆情"],
-            "传播": ["媒介", "公关", "广告", "策划", "品牌", "新媒体", "市场"],
-            "法学": ["法务", "合规", "律师", "风控", "产权", "专利", "审计"],
-            "知识产权": ["专利", "知产", "商标", "法务", "审查"],
-            "机械": ["机械", "结构", "工艺", "制造", "设备", "机电", "模具", "CAE", "液压"],
-            "材料": ["材料", "工艺", "研发", "质量", "测试", "半导体", "新能源", "高分子", "电芯"],
-            "化学": ["化工", "研发", "分析", "实验", "工艺", "制药", "合成", "涂料"],
-            "生物": ["医药", "生物", "研发", "临床", "实验", "医疗器械", "检测", "试剂"],
-            "环境": ["环保", "EHS", "水处理", "环评", "安全", "监测", "废气"],
-            "土木": ["施工", "造价", "建筑", "路桥", "设计", "工程", "岩土"],
-            "电气": ["电气", "强电", "弱电", "电网", "新能源", "电力"],
-            "数学": ["数据分析", "算法", "精算", "开发", "风控", "量化"],
-            "统计": ["数据分析", "算法", "精算", "运营", "风控", "模型"],
-            "外语": ["翻译", "外贸", "海外", "商务", "运营", "销售", "出海"],
-            "英语": ["翻译", "外贸", "海外", "商务", "运营", "销售", "英语老师", "教培"],
-            "物流": ["供应链", "物流", "仓储", "采购", "运营", "调度"],
-            "设计": ["设计", "UI", "视觉", "美工", "原画", "3D", "包装", "交互"],
-            "艺术": ["设计", "原画", "动画", "视频", "剪辑", "视觉", "插画"]
+            "计算机科学与技术": ["研发", "开发", "前端", "后端", "测试", "算法", "运维", "C++", "Java", "Python", "数据分析", "产品经理", "全栈"],
+            "软件工程": ["研发", "开发", "前端", "后端", "测试", "算法", "运维", "全栈", "架构", "代码"],
+            "网络工程": ["网络", "安全", "运维", "通信", "渗透", "技术支持", "网络工程师"],
+            "信息安全": ["安全", "渗透", "防火墙", "合规", "风控", "漏洞", "网络安全"],
+            "物联网工程": ["嵌入式", "物联网", "硬件", "C语言", "单片机", "传感器"],
+            "数字媒体技术": ["设计", "前端", "UI", "游戏", "动画", "视觉设计", "剪辑", "新媒体技术"],
+            "智能科学与技术": ["算法", "人工智能", "数据分析", "深度学习", "机器学习", "大模型"],
+            "数据科学与大数据技术": ["数据分析", "大数据", "算法", "Python", "SQL", "分析师", "商业分析"],
+            "具身智能": ["算法", "机器人", "机器视觉", "运动控制", "深度学习", "控制工程"],
+            "区块链工程": ["后端", "安全", "加密", "分布式", "金融科技", "算法"],
+            "电子信息工程": ["硬件", "嵌入式", "通信", "测试", "芯片", "半导体", "电路"],
+            "电子科学与技术": ["芯片", "半导体", "微电子", "硬件", "集成电路", "工艺工程师"],
+            "通信工程": ["通信", "5G", "基站", "射频", "网络", "协议", "技术支持"],
+            "微电子科学与工程": ["芯片", "半导体", "微电子", "集成电路", "IC设计", "光刻"],
+            "光电信息科学与工程": ["光电", "光学", "激光", "射频", "显示技术", "工艺工程师"],
+            "集成电路设计与集成系统": ["IC设计", "芯片", "模拟电路", "数字电路", "半导体", "验证"],
+            "自动化": ["自动化", "控制", "机器人", "PLC", "硬件", "机电", "智能制造"],
+            "机器人工程": ["机器人", "自动化", "控制", "嵌入式", "结构", "ROS", "算法"],
+            "电气工程及其自动化": ["电气", "强电", "弱电", "电网", "新能源", "高压", "电力"],
+            "智能电网信息工程": ["电网", "电气", "能源", "调度", "自动化"],
+            "机械设计制造及其自动化": ["机械", "结构", "CAD", "工艺", "制造", "三维", "模具"],
+            "车辆工程": ["车辆", "汽车制造", "智能驾驶", "新能源汽车", "底盘", "结构工程师"],
+            "智能制造工程": ["智能制造", "工业互联网", "自动化", "工艺", "制造", "精密"],
+            "土木工程": ["施工", "造价", "路桥", "结构", "监理", "工程管理", "土建"],
+            "建筑学": ["建筑设计", "画图", "方案", "规划", "室内设计", "城乡规划"],
+            "城乡规划": ["规划", "设计", "土地", "分析", "市政"],
+            "数学与应用数学": ["数据分析", "算法", "精算", "量化", "风控", "金融数学"],
+            "信息与计算科学": ["开发", "算法", "软件", "数据分析", "模型"],
+            "数据计算及应用": ["数据分析", "统计", "Python", "商业分析", "模型"],
+            "物理学": ["研发", "材料", "半导体", "工艺", "精密仪器"],
+            "应用物理学": ["半导体", "光学", "传感器", "材料", "研发工程师"],
+            "化学": ["化工", "研发", "分析", "实验", "合成", "质检", "医药"],
+            "应用化学": ["化工", "工艺", "质检", "实验", "精细化工", "锂电"],
+            "生物科学": ["医药", "生物", "实验", "检测", "制药", "临床"],
+            "生物技术": ["试剂", "检测", "生物医药", "研发", "实验", "克隆"],
+            "地理信息科学": ["GIS", "遥感", "测绘", "地图", "数据分析"],
+            "心理学": ["用户研究", "人资", "培训", "心理咨询", "体验设计"],
+            "应用心理学": ["HR", "招聘", "辅导", "市场研究", "用研"],
+            "统计学": ["数据分析", "统计", "精算", "商业分析", "数据建模"],
+            "应用统计学": ["风控", "数据分析", "数据仓库", "运营分析"],
+            "经济学": ["分析师", "行研", "咨询", "管培生", "数据分析"],
+            "经济统计学": ["数据分析", "风控", "计量", "模型", "研究员"],
+            "数字经济": ["运营", "电商", "数据分析", "数字营销", "商业策略"],
+            "金融学": ["投资", "融资", "券商", "银行", "风控", "行研", "顾问", "理财", "金融"],
+            "金融工程": ["量化", "风控", "建模", "精算", "行研", "资产管理"],
+            "金融数学": ["量化", "风控", "数学模型", "精算", "衍生品"],
+            "金融科技": ["开发", "大数据", "区块链", "风控", "金融IT"],
+            "数字金融": ["分析师", "风控", "第三方支付", "合规"],
+            "国际经济与贸易": ["外贸", "跨境", "商务", "海外", "销售", "进出口", "出海"],
+            "数字贸易": ["跨境电商", "海外运营", "出海", "国际物流", "独立站"],
+            "工商管理": ["管培生", "运营", "市场", "行政", "人力资源", "储备干部"],
+            "市场营销": ["市场", "销售", "BD", "策划", "品牌", "公关", "渠道", "拓客"],
+            "会计学": ["财务", "会计", "审计", "税务", "出纳", "结算"],
+            "财务管理": ["财务", "预算", "分析", "内控", "会计", "成本"],
+            "国际商务": ["外贸", "海外运营", "国际销售", "涉外商务"],
+            "人力资源管理": ["招聘", "HR", "人事", "培训", "绩效", "员工关系"],
+            "审计学": ["审计", "内控", "风控", "合规", "核算"],
+            "行政管理": ["行政", "助理", "前台", "秘书", "综合管理"],
+            "物流管理": ["物流", "仓储", "采购", "调度", "供应链"],
+            "供应链管理": ["供应链", "采购", "计划", "仓储", "寻源", "供应商"],
+            "电子商务": ["电商", "运营", "淘系", "抖店", "直播", "媒介"],
+            "跨境电子商务": ["跨境", "亚马逊", "Shopee", "海外运营", "独立站"],
+            "汉语言文学": ["文案", "编辑", "新媒体", "运营", "策划", "行政", "人事", "公关", "文秘"],
+            "文案": ["新媒体", "运营", "主编", "文案", "文秘"],
+            "网络与新媒体": ["新媒体", "代运营", "文案", "剪辑", "媒介", "公关"],
+            "新闻学": ["记者", "编辑", "文案", "公关", "媒体关系", "舆情"],
+            "广播电视学": ["编导", "摄像", "剪辑", "后期", "新媒体", "节目策划"],
+            "广告学": ["策划", "文案", "账户投放", "媒介", "客户经理", "AE"],
+            "传播学": ["公关", "媒介", "品牌", "策划", "广告"],
+            "英语": ["翻译", "外贸", "海外", "跨境", "海外销售", "英语老师"],
+            "商务英语": ["外贸", "海外拓展", "跨境电商", "涉外商务"],
+            "翻译": ["翻译", "同传", "本地化", "海外运营", "外事"],
+            "法学": ["法务", "合规", "合同审查", "风控", "律师助理", "合规官"],
+            "知识产权": ["专利代理", "商标", "版权", "知产法务", "审查"],
+            "未来机器人": ["机器人", "ROS", "控制", "算法", "SLAM"],
+            "具身智能": ["算法", "控制", "机器视觉", "机器学习", "深度学习"],
+            "临床医学": ["医生", "医疗", "临床", "医药代表", "科研助理"],
+            "药学": ["药剂", "研发", "医药代表", "质检", "QA", "QC"],
+            "学前教育": ["幼教", "课程研发", "早教", "咨询"],
+            "动画": ["原画", "3D", "模型", "特效", "剪辑", "渲染"],
+            "视觉传达设计": ["平面设计", "美工", "视觉设计", "海报", "排版", "UI"],
+            "UI/交互设计": ["UI", "UX", "交互设计", "体验研究", "移动端界面"]
         };
 
         const filterData = {
@@ -310,20 +392,61 @@
                 localStorage.setItem('zyhuhang_read_jobs', JSON.stringify(readJobs));
                 
                 const row = document.getElementById(`row-${jobId}`);
-                if (row) {
-                    row.classList.add('opacity-50', 'bg-slate-50');
-                    row.classList.remove('bg-white');
-                }
-                
+                if (row) { row.classList.add('opacity-50', 'bg-slate-50'); row.classList.remove('bg-white'); }
                 const card = document.getElementById(`card-${jobId}`);
-                if (card) {
-                    card.classList.remove('bg-white');
-                    card.classList.add('opacity-60', 'bg-slate-50');
-                }
+                if (card) { card.classList.remove('bg-white'); card.classList.add('opacity-60', 'bg-slate-50'); }
                 
                 const badges = document.querySelectorAll(`.read-badge-${jobId}`);
                 badges.forEach(b => b.classList.remove('hidden'));
             }
+        }
+
+        // ==========================================
+        // 初始化教育部二级联动菜单逻辑
+        // ==========================================
+        function initMajorSelects() {
+            const catSelect = document.getElementById("major-category-select");
+            for (const cat in majorDatabase) {
+                const opt = document.createElement("option");
+                opt.value = cat;
+                opt.textContent = cat;
+                catSelect.appendChild(opt);
+            }
+        }
+
+        function handleCategoryChange(catValue) {
+            const subSelect = document.getElementById("sub-major-select");
+            subSelect.innerHTML = '<option value="">-- 请选择细分专业 --</option>';
+            
+            if (!catValue) {
+                subSelect.disabled = true;
+                return;
+            }
+
+            subSelect.disabled = false;
+            const subMajors = majorDatabase[catValue];
+            subMajors.forEach(major => {
+                const opt = document.createElement("option");
+                opt.value = major;
+                opt.textContent = major;
+                subSelect.appendChild(opt);
+            });
+        }
+
+        function handleSubMajorChange(majorValue) {
+            if (majorValue) {
+                document.getElementById("hero-global-search").value = majorValue;
+                currentFilters.globalKeyword = majorValue;
+                executeSearchClick();
+            }
+        }
+
+        // 热门搜索捷径
+        function setShortcutSearch(cat, subMajor) {
+            document.getElementById("major-category-select").value = cat;
+            handleCategoryChange(cat);
+            document.getElementById("sub-major-select").value = subMajor;
+            setSearch(subMajor);
         }
 
         function setSearch(keyword) {
@@ -359,16 +482,12 @@
 
         function handleFilterClick(filterKey, value) {
             const isAllOption = (value === "全部" || value === "不限" || value === "全国");
-
             if (isAllOption) {
                 currentFilters[filterKey] = [];
             } else {
                 const idx = currentFilters[filterKey].indexOf(value);
-                if (idx > -1) {
-                    currentFilters[filterKey].splice(idx, 1);
-                } else {
-                    currentFilters[filterKey].push(value);
-                }
+                if (idx > -1) currentFilters[filterKey].splice(idx, 1);
+                else currentFilters[filterKey].push(value);
             }
             currentPage = 1;
 
@@ -377,56 +496,65 @@
                 const cityInput = document.getElementById("city-search");
                 if (cityInput) cityInput.value = "";
             }
-
             initFilters();
             applyFilters();
         }
 
         function resetFilters() {
             currentFilters = {
-                globalKeyword: "", jobTag: [], feature: [], industry: [],
-                city: [], cityKeyword: "", companyType: []
+                globalKeyword: "", jobTag: [], feature: [], industry: [], city: [], cityKeyword: "", companyType: []
             };
-
             currentPage = 1;
-            const heroInput = document.getElementById("hero-global-search");
-            if (heroInput) heroInput.value = "";
-            const cityInput = document.getElementById("city-search");
-            if (cityInput) cityInput.value = "";
+            document.getElementById("hero-global-search").value = "";
+            document.getElementById("city-search").value = "";
+            document.getElementById("major-category-select").value = "";
+            handleCategoryChange("");
 
             initFilters();
             applyFilters();
             history.replaceState(null, "", window.location.pathname);
         }
 
-        let hasMappedMajorMatches = false;
+        // ==========================================
+        // 核心多功能混合匹配算法 (单输入全自动化解析)
+        // ==========================================
+        let examMappedMatches = false;
 
         function matchGlobalKeyword(job, keyword) {
             if (!keyword) return true;
-            const kw = keyword.toLowerCase();
-            const fullJobText = [job.companyName, job.content, job.city, job.industry, job.companyType, job.tag].join(" ").toLowerCase();
+            
+            // 采用空格切分，允许家长同时输入“计算机 北京”或“汉语言 国企”进行精准复合筛选
+            const fragments = keyword.toLowerCase().split(/\s+/).filter(Boolean);
+            if (fragments.length === 0) return true;
 
-            if (fullJobText.includes(kw)) return true;
+            // 必须每个词片段都通过，才算命中
+            return fragments.every(frag => {
+                const fullJobText = [job.companyName, job.content, job.city, job.industry, job.companyType, job.tag].join(" ").toLowerCase();
+                
+                // 如果片段本身包含在基础文本里，直接满足
+                if (fullJobText.includes(frag)) return true;
 
-            let mappedKeywords = [];
-            for (const [major, keywords] of Object.entries(majorToJobMap)) {
-                if (major.includes(kw) || kw.includes(major)) {
-                    mappedKeywords = mappedKeywords.concat(keywords);
+                // 检查这个片段是否命中了专业映射字典
+                let extendKws = [];
+                for (const [major, keywords] of Object.entries(majorToJobMap)) {
+                    if (major.toLowerCase().includes(frag) || frag.includes(major.toLowerCase())) {
+                        extendKws = extendKws.concat(keywords);
+                    }
                 }
-            }
 
-            if (mappedKeywords.length > 0) {
-                const jobContentText = [job.content, job.tag, job.industry].join(" ").toLowerCase();
-                if (mappedKeywords.some(mappedKw => jobContentText.includes(mappedKw.toLowerCase()))) {
-                    hasMappedMajorMatches = true; 
-                    return true;
+                if (extendKws.length > 0) {
+                    const checkRange = [job.content, job.tag, job.industry].join(" ").toLowerCase();
+                    if (extendKws.some(k => checkRange.includes(k.toLowerCase()))) {
+                        examMappedMatches = true; 
+                        return true;
+                    }
                 }
-            }
-            return false;
+                return false;
+            });
         }
 
         function applyFilters() {
-            hasMappedMajorMatches = false;
+            examMappedMatches = false;
 
             filteredJobs = allJobs.filter(job => {
                 const globalKeyword = currentFilters.globalKeyword || "";
@@ -451,7 +579,7 @@
 
             const tipEl = document.getElementById('major-match-tip');
             if (tipEl) {
-                if (hasMappedMajorMatches) tipEl.classList.remove('hidden');
+                if (examMappedMatches) tipEl.classList.remove('hidden');
                 else tipEl.classList.add('hidden');
             }
 
@@ -459,6 +587,9 @@
             renderPagination();
         }
 
+        // ==========================================
+        // 推荐标签与基础辅助模块 (保持原样)
+        // ==========================================
         const bigCities = ["全国", "北京", "上海", "广州", "深圳", "杭州", "成都", "武汉", "南京", "苏州", "西安", "长沙", "重庆", "天津"];
         const bigCompanyKeywords = ["阿里", "腾讯", "字节", "百度", "京东", "美团", "快手", "小米", "华为", "网易", "滴滴", "携程", "比亚迪", "蔚来", "理想", "大疆"];
         const agnosticKeywords = ["销售", "商务", "BD", "客户", "渠道", "运营", "新媒体", "市场", "管培生", "行政"];
@@ -636,37 +767,20 @@
             document.getElementById("today-count").textContent = countUpdatesByDays(1);
             document.getElementById("seven-days-count").textContent = countUpdatesByDays(7);
             const rangeEl = document.getElementById("data-range-text");
-            if (!allJobs.length) {
-                rangeEl.textContent = "暂无数据";
-                return;
-            }
+            if (!allJobs.length) { rangeEl.textContent = "暂无数据"; return; }
             const sorted = [...allJobs].sort((a, b) => parseJobTime(b.updateTime) - parseJobTime(a.updateTime));
             const latest = formatDate(sorted[0].updateTime);
             const earliest = formatDate(sorted[sorted.length - 1].updateTime);
             rangeEl.textContent = `${latest} 至 ${earliest}`;
         }
 
-        function renderLoading(message) {
-            document.getElementById("data-container").innerHTML = `
-                <div class="bg-white p-16 text-center rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-                    <svg class="animate-spin h-10 w-10 text-brand-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                    <div class="text-gray-900 font-bold text-lg">${escapeHTML(message)}</div>
-                    <div class="text-gray-400 text-sm mt-2">请稍候</div>
-                </div>`;
-        }
-
         function updateDataStatus(status, message) {
             const el = document.getElementById("data-status");
             if (!el) return;
-            if (status === "full") {
-                el.className = "hidden sm:inline-block text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100";
-            } else if (status === "loading") {
-                el.className = "hidden sm:inline-block text-xs px-2.5 py-1 rounded-full bg-amber-50 text-amber-600 border border-amber-100";
-            } else if (status === "error") {
-                el.className = "hidden sm:inline-block text-xs px-2.5 py-1 rounded-full bg-red-50 text-red-500 border border-red-100";
-            } else {
-                el.className = "hidden sm:inline-block text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-500 border border-gray-200";
-            }
+            if (status === "full") el.className = "hidden sm:inline-block text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100";
+            else if (status === "loading") el.className = "hidden sm:inline-block text-xs px-2.5 py-1 rounded-full bg-amber-50 text-amber-600 border border-amber-100";
+            else if (status === "error") el.className = "hidden sm:inline-block text-xs px-2.5 py-1 rounded-full bg-red-50 text-red-500 border border-red-100";
+            else el.className = "hidden sm:inline-block text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-500 border border-gray-200";
             el.textContent = message;
         }
 
@@ -697,7 +811,7 @@
             try {
                 isLoadingFast = true;
                 renderLoading("正在同步最新 200 条岗位数据...");
-                updateDataStatus("loading", "同步基础数据...");
+                updateDataStatus("loading", "正在同步基础岗位...");
                 const res = await fetchWithTimeout(`/api/jobs?mode=fast&fastLimit=${FAST_LIMIT}`, {}, 20000);
                 if (!res.ok) throw new Error(`请求失败`);
                 const json = await res.json();
@@ -707,16 +821,13 @@
                 updateTopStats();
                 applyFilters();
                 if (isFullDataLoaded) {
-                    updateDataStatus("full", `同步完毕，共 ${allJobs.length} 条`);
+                    updateDataStatus("full", `数据同步完毕，共 ${allJobs.length} 条`);
                 } else {
-                    updateDataStatus("loading", "正在后台同步全量数据...");
+                    updateDataStatus("loading", "正在同步深度全量历史数据...");
                     preloadFullData();
                 }
-            } catch (err) {
-                updateDataStatus("error", "同步失败，请刷新页面");
-            } finally {
-                isLoadingFast = false;
-            }
+            } catch (err) { updateDataStatus("error", "同步失败，请刷新重试"); }
+            finally { isLoadingFast = false; }
         }
 
         async function preloadFullData() {
@@ -733,7 +844,7 @@
                     if (currentPage > 1) currentPage = Math.min(currentPage, Math.max(1, Math.ceil(fullJobs.length / pageSize)));
                     updateTopStats();
                     applyFilters();
-                    updateDataStatus("full", json.isFullData ? `全量数据同步完成` : `已同步大量历史数据`);
+                    updateDataStatus("full", json.isFullData ? `名企大数据全量同步就绪` : `已完成历史全量数据同步`);
                 }
             } catch (err) {} finally { isLoadingFull = false; }
         }
@@ -746,18 +857,6 @@
             document.getElementById("current-page").textContent = currentPage;
             document.getElementById("total-pages").textContent = totalPages;
             renderJobList(pageJobs);
-        }
-
-        function goToPage(page) {
-            if (page < 1 || page > totalPages || page === currentPage) return;
-            currentPage = page;
-            renderCurrentPage();
-            renderPagination();
-            const container = document.getElementById("data-container");
-            if (container) {
-                const topPosition = container.getBoundingClientRect().top + window.scrollY - 100;
-                window.scrollTo({ top: topPosition, behavior: "smooth" });
-            }
         }
 
         function renderPagination() {
@@ -775,9 +874,7 @@
             }
 
             for (let p = startPage; p <= endPage; p++) {
-                const activeClass = p === currentPage
-                    ? "bg-brand-600 text-white border-brand-600 shadow-md"
-                    : "bg-white text-gray-600 border-gray-200 hover:text-brand-600 hover:border-brand-200";
+                const activeClass = p === currentPage ? "bg-brand-600 text-white border-brand-600 shadow-md" : "bg-white text-gray-600 border-gray-200 hover:text-brand-600 hover:border-brand-200";
                 pageButtons += `<button onclick="goToPage(${p})" class="w-10 h-10 flex items-center justify-center rounded-xl text-sm font-medium border ${activeClass} transition-all">${p}</button>`;
             }
 
@@ -791,12 +888,11 @@
                     <button onclick="goToPage(${currentPage - 1})" ${prevDisabled ? "disabled" : ""} class="px-4 h-10 rounded-xl text-sm font-medium border ${prevDisabled ? "bg-gray-50 text-gray-400 border-gray-100 cursor-not-allowed" : "bg-white text-gray-700 border-gray-200 hover:text-brand-600 hover:border-brand-200 transition-colors"}">上一页</button>
                     ${pageButtons}
                     <button onclick="goToPage(${currentPage + 1})" ${nextDisabled ? "disabled" : ""} class="px-4 h-10 rounded-xl text-sm font-medium border ${nextDisabled ? "bg-gray-50 text-gray-400 border-gray-100 cursor-not-allowed" : "bg-white text-gray-700 border-gray-200 hover:text-brand-600 hover:border-brand-200 transition-colors"}">下一页</button>
-                </div>
-            `;
+                </div>`;
         }
 
         // ===============================================
-        // 核心优化区：修复电脑端宽度溢出与移动端智能切换
+        // 核心自适应布局：双端无缝响应式切换渲染逻辑
         // ===============================================
         function renderJobList(records) {
             const container = document.getElementById("data-container");
@@ -804,20 +900,20 @@
                 container.innerHTML = `
                     <div class="bg-white p-16 text-center rounded-2xl shadow-sm border border-gray-100">
                         <div class="text-5xl mb-4 opacity-50">📭</div>
-                        <div class="text-gray-900 font-bold text-xl">未匹配到符合条件的岗位</div>
-                        <div class="text-gray-400 text-sm mt-3">建议尝试搜索其他专业或减少筛选条件</div>
+                        <div class="text-gray-900 font-bold text-xl">全库未检索到符合条件的对口岗位</div>
+                        <div class="text-gray-400 text-sm mt-3">建议尝试更改顶部的专业分类，或放宽筛选条件</div>
                     </div>`;
                 return;
             }
             
-            // 电脑端：使用严格的 table-fixed 比例控制，杜绝出现横向滚动条
+            // 电脑端/大屏：强制使用严格的百分比自适应 table-fixed 比例，绝不溢出
             let tableHtml = `
                 <div class="hidden lg:block overflow-hidden bg-white rounded-2xl shadow-lg border border-gray-100 w-full">
                     <table class="min-w-full table-fixed divide-y divide-gray-100 text-sm text-left align-middle w-full">
                         <thead class="bg-slate-50 text-gray-500 font-semibold tracking-wider">
                             <tr>
                                 <th class="px-3 py-4 w-[11%]">更新日期</th>
-                                <th class="px-3 py-4 w-[25%]">企业信息</th>
+                                <th class="px-3 py-4 w-[25%]">名企信息</th>
                                 <th class="px-3 py-4 w-[8%] text-center">性质</th>
                                 <th class="px-3 py-4 w-[22%]">招聘岗位</th>
                                 <th class="px-3 py-4 w-[10%]">城市</th>
@@ -828,7 +924,7 @@
                         <tbody class="divide-y divide-gray-100 bg-white">
             `;
             
-            // 移动端/iPad端：使用 lg:hidden 控制
+            // 移动端/iPad等中窄屏幕卡片流视图
             let cardsHtml = `<div class="lg:hidden flex flex-col gap-4">`;
             
             records.forEach(item => {
@@ -871,33 +967,32 @@
                 if (tag && tag !== "-") pcTagsHtml += `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">${tag}</span>`;
                 if (majorTag) pcTagsHtml += `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-600 border border-emerald-200">${safeMajorTag}</span>`;
 
+                // PC 严密单行自适应
                 tableHtml += `
                     <tr id="row-${jobId}" class="table-row-hover transition-all duration-200 ease-in-out cursor-default ${readRowClass}">
-                        <td class="px-3 py-4 text-gray-400 font-medium align-middle truncate">${updateTime}</td>
-                        <td class="px-3 py-4 text-gray-900 font-bold align-middle overflow-hidden" title="${companyName}">
+                        <td class="px-3 py-5 text-gray-400 font-medium align-middle truncate">${updateTime}</td>
+                        <td class="px-3 py-5 text-gray-900 font-bold align-middle overflow-hidden" title="${companyName}">
                             <div class="flex items-center w-full">
                                 <span class="truncate text-[15px]">${companyName}</span>
                                 <span class="read-badge-${jobId} ${readBadgeClass} shrink-0 ml-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-gray-500">已阅</span>
                             </div>
-                            <div class="mt-1 flex items-center gap-1 overflow-hidden w-full h-5">${pcTagsHtml}</div>
+                            <div class="mt-1.5 flex items-center gap-1 overflow-hidden w-full h-5">${pcTagsHtml}</div>
                         </td>
-                        <td class="px-3 py-4 text-center align-middle">
+                        <td class="px-3 py-5 text-center align-middle">
                             <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium border border-gray-200 text-gray-600 bg-gray-50 shadow-sm whitespace-nowrap">${companyType}</span>
                         </td>
-                        <td class="px-3 py-4 text-gray-800 align-middle font-medium truncate" title="${content}">${content}</td>
-                        <td class="px-3 py-4 text-gray-600 align-middle truncate" title="${city}">
+                        <td class="px-3 py-5 text-gray-800 align-middle font-medium truncate" title="${content}">${content}</td>
+                        <td class="px-3 py-5 text-gray-600 align-middle truncate" title="${city}">
                             <div class="flex items-center gap-1 w-full">
                                 <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                 <span class="truncate">${city}</span>
                             </div>
                         </td>
-                        <td class="px-3 py-4 align-middle truncate text-sm font-medium text-gray-600" title="${industry}">${industry}</td>
-                        <td class="px-3 py-4 text-center align-middle overflow-hidden">
-                            ${pcApplyLink}
-                        </td>
-                    </tr>
-                `;
+                        <td class="px-3 py-5 align-middle truncate text-sm font-medium text-gray-600" title="${industry}">${industry}</td>
+                        <td class="px-3 py-5 text-center align-middle overflow-hidden">${pcApplyLink}</td>
+                    </tr>`;
 
+                // 移动端卡片
                 cardsHtml += `
                     <div id="card-${jobId}" class="p-5 rounded-2xl shadow-md border border-gray-100 relative overflow-hidden transition-all ${readRowClass}">
                         <div class="absolute left-0 top-0 bottom-0 w-1 bg-brand-500"></div>
@@ -917,8 +1012,7 @@
                             <div class="shrink-0 text-[11px] text-gray-400 font-medium">🕒 更新于 ${updateTime}</div>
                             <div class="flex flex-1 gap-2 items-center justify-end flex-wrap">${mobileApplyLink}</div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
             
             tableHtml += `</tbody></table></div></div>`;
@@ -926,87 +1020,9 @@
             container.innerHTML = tableHtml + cardsHtml;
         }
 
-        function copyApplyLinkFromButton(button) {
-            const jobId = button.dataset.jobid;
-            if (jobId) markAsRead(jobId);
-            const encoded = button.dataset.copy || button.dataset.url || "";
-            const text = decodeURIComponent(encoded);
-            if (!text) return;
-            const oldText = button.textContent;
-            const copiedText = button.dataset.copiedText || "已复制";
-            function showCopied() {
-                button.textContent = copiedText;
-                button.classList.add("text-emerald-700", "border-emerald-300", "bg-emerald-100");
-                setTimeout(() => {
-                    button.textContent = oldText;
-                    button.classList.remove("text-emerald-700", "border-emerald-300", "bg-emerald-100");
-                }, 1500);
-            }
-            if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(showCopied).catch(() => { fallbackCopyText(text); showCopied(); });
-            else { fallbackCopyText(text); showCopied(); }
-        }
-
-        function fallbackCopyText(text) {
-            const textarea = document.createElement("textarea");
-            textarea.value = text;
-            textarea.style.position = "fixed";
-            textarea.style.left = "-9999px";
-            textarea.style.top = "-9999px";
-            document.body.appendChild(textarea);
-            textarea.focus();
-            textarea.select();
-            try { document.execCommand("copy"); } catch (err) {}
-            document.body.removeChild(textarea);
-        }
-
-        function buildShareUrl() {
-            const params = new URLSearchParams();
-            if (currentFilters.globalKeyword) params.set("q", currentFilters.globalKeyword);
-            if (currentFilters.jobTag.length > 0) params.set("tag", currentFilters.jobTag.join(","));
-            if (currentFilters.feature.length > 0) params.set("feature", currentFilters.feature.join(","));
-            if (currentFilters.industry.length > 0) params.set("industry", currentFilters.industry.join(","));
-            if (currentFilters.city.length > 0) params.set("city", currentFilters.city.join(","));
-            if (currentFilters.cityKeyword) params.set("cityKeyword", currentFilters.cityKeyword);
-            if (currentFilters.companyType.length > 0) params.set("companyType", currentFilters.companyType.join(","));
-            const query = params.toString();
-            return `${window.location.origin}${window.location.pathname}${query ? "?" + query : ""}`;
-        }
-
-        function copyCurrentFilterLink(button) {
-            const url = buildShareUrl();
-            const oldHtml = button.innerHTML;
-            function showCopied() {
-                button.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 已复制链接`;
-                button.classList.add("text-emerald-600", "border-emerald-200", "bg-emerald-50");
-                button.classList.remove("text-gray-700", "border-gray-200", "bg-white");
-                setTimeout(() => {
-                    button.innerHTML = oldHtml;
-                    button.classList.remove("text-emerald-600", "border-emerald-200", "bg-emerald-50");
-                    button.classList.add("text-gray-700", "border-gray-200", "bg-white");
-                }, 1500);
-            }
-            if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(showCopied).catch(() => { fallbackCopyText(url); showCopied(); });
-            else { fallbackCopyText(url); showCopied(); }
-        }
-
-        function applyFiltersFromUrl() {
-            const params = new URLSearchParams(window.location.search);
-            currentFilters.globalKeyword = params.get("q") || "";
-            currentFilters.jobTag = params.get("tag") ? params.get("tag").split(",") : [];
-            currentFilters.feature = params.get("feature") ? params.get("feature").split(",") : [];
-            currentFilters.industry = params.get("industry") ? params.get("industry").split(",") : [];
-            currentFilters.city = params.get("city") ? params.get("city").split(",") : [];
-            currentFilters.cityKeyword = params.get("cityKeyword") || "";
-            currentFilters.companyType = params.get("companyType") ? params.get("companyType").split(",") : [];
-
-            const heroInput = document.getElementById("hero-global-search");
-            if (heroInput) heroInput.value = currentFilters.globalKeyword;
-            const cityInput = document.getElementById("city-search");
-            if (cityInput) cityInput.value = currentFilters.cityKeyword;
-        }
-
         document.addEventListener("DOMContentLoaded", async () => {
             applyFiltersFromUrl();
+            initMajorSelects();
             initFilters();
             await fetchData();
         });
