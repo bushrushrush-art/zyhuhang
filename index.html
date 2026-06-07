@@ -71,28 +71,46 @@
             <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
                 <span class="text-brand-300">志愿护航</span> | 你的专业能找什么工作？
             </h1>
-            <p class="text-brand-100 text-sm sm:text-base leading-relaxed opacity-90 mb-10 max-w-2xl mx-auto font-medium">
-                聚合全网名企数据，打通“<span class="text-white border-b border-brand-300 pb-0.5">专业 - 市场岗位</span>”匹配链路。<br class="hidden sm:block">一键智搜，让每一次投递都精准无误。
+            <p class="text-brand-100 text-sm sm:text-base leading-relaxed opacity-90 mb-8 max-w-2xl mx-auto font-medium">
+                聚合全网名企数据，打通“<span class="text-white border-b border-brand-300 pb-0.5">专业分类 - 市场岗位</span>”匹配链路。<br class="hidden sm:block">专为志愿填报家庭设计，一键全景智搜。
             </p>
             
-            <div class="relative max-w-3xl mx-auto shadow-2xl rounded-full group">
-                <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                    <svg class="w-6 h-6 text-gray-400 group-focus-within:text-brand-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <div class="max-w-3xl mx-auto bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-3xl border border-white/20 shadow-2xl mb-4 text-left">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                    <div class="flex flex-col">
+                        <label class="text-xs text-brand-100 font-bold mb-1.5 ml-1">1. 选择学科门类</label>
+                        <select id="major-category-select" onchange="handleCategoryChange(this.value)" class="w-full bg-white text-gray-800 rounded-xl px-3 py-3 text-sm font-bold outline-none border border-transparent focus:border-brand-400 shadow-sm transition-all cursor-pointer">
+                            <option value="">-- 请选择学科大类 --</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-xs text-brand-100 font-bold mb-1.5 ml-1">2. 选择细分专业</label>
+                        <select id="sub-major-select" onchange="handleSubMajorChange(this.value)" class="w-full bg-white text-gray-800 rounded-xl px-3 py-3 text-sm font-bold outline-none border border-transparent focus:border-brand-400 shadow-sm transition-all cursor-pointer" disabled>
+                            <option value="">-- 请先选择门类 --</option>
+                        </select>
+                    </div>
                 </div>
-                <input
-                    id="hero-global-search"
-                    type="text"
-                    placeholder="输入你的专业 (如: 汉语言、自动化) / 岗位 / 城市 / 公司名称..."
-                    class="w-full pl-14 pr-32 sm:pr-40 py-4 sm:py-5 rounded-full text-gray-900 text-sm sm:text-lg border-2 border-transparent outline-none transition-all focus:border-brand-400 focus:ring-4 focus:ring-brand-200 bg-white placeholder-gray-400 font-medium"
-                    oninput="handleHeroSearch(this.value)"
-                    onkeydown="if(event.key==='Enter') executeSearchClick()"
-                />
-                <button onclick="executeSearchClick()" class="absolute right-2 top-2 bottom-2 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white px-6 sm:px-8 rounded-full font-bold shadow-md transition-all text-sm sm:text-base flex items-center gap-1 active:scale-95">
-                    智能匹配
-                </button>
+
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-400 group-focus-within:text-brand-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <input
+                        id="hero-global-search"
+                        type="text"
+                        placeholder="或者直接输入专业 / 岗位 / 城市 / 公司名称..."
+                        class="w-full pl-12 pr-28 sm:pr-36 py-3.5 sm:py-4 rounded-xl text-gray-900 text-xs sm:text-base border border-transparent outline-none transition-all focus:border-brand-500 focus:ring-4 focus:ring-brand-200 bg-white placeholder-gray-400 font-medium shadow-inner"
+                        oninput="handleHeroSearch(this.value)"
+                        onkeydown="if(event.key==='Enter') executeSearchClick()"
+                    />
+                    <button onclick="executeSearchClick()" class="absolute right-1.5 top-1.5 bottom-1.5 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white px-5 sm:px-7 rounded-lg font-bold shadow-md transition-all text-xs sm:text-sm flex items-center gap-1 active:scale-95">
+                        智能匹配
+                    </button>
+                </div>
             </div>
+
             <div class="mt-4 text-xs sm:text-sm text-brand-200 flex items-center justify-center gap-2 flex-wrap">
-                <span>热门检索：</span>
+                <span>热门直达：</span>
                 <span class="cursor-pointer hover:text-white border border-brand-400/50 px-2 py-0.5 rounded-full transition-colors" onclick="setSearch('计算机')">计算机</span>
                 <span class="cursor-pointer hover:text-white border border-brand-400/50 px-2 py-0.5 rounded-full transition-colors" onclick="setSearch('汉语言')">汉语言</span>
                 <span class="cursor-pointer hover:text-white border border-brand-400/50 px-2 py-0.5 rounded-full transition-colors" onclick="setSearch('自动化')">自动化</span>
@@ -214,6 +232,23 @@
     </footer>
 
     <script>
+        // ==========================================
+        // 最新专业数据库字典 (包含热门分类推荐)
+        // ==========================================
+        const majorDatabase = {
+            "🔥 热门专业(家长推荐)": ["计算机科学与技术", "自动化", "汉语言文学", "金融学", "软件工程", "财务管理", "电气工程及其自动化", "临床医学", "网络与新媒体"],
+            "工学类": ["计算机科学与技术", "软件工程", "网络工程", "信息安全", "物联网工程", "数字媒体技术", "智能科学与技术", "数据科学与大数据技术", "具身智能", "区块链工程", "电子信息工程", "电子科学与技术", "通信工程", "微电子科学与工程", "光电信息科学与工程", "集成电路设计与集成系统", "自动化", "机器人工程", "电气工程及其自动化", "智能电网信息工程", "机械设计制造及其自动化", "车辆工程", "智能制造工程", "土木工程", "建筑学", "城乡规划"],
+            "理学类": ["数学与应用数学", "信息与计算科学", "数据计算及应用", "物理学", "应用物理学", "化学", "应用化学", "生物科学", "生物技术", "地理信息科学", "心理学", "应用心理学", "统计学", "应用统计学"],
+            "经济学类": ["经济学", "经济统计学", "数字经济", "金融学", "金融工程", "金融数学", "金融科技", "数字金融", "国际经济与贸易", "数字贸易"],
+            "管理学类": ["工商管理", "市场营销", "会计学", "财务管理", "国际商务", "人力资源管理", "审计学", "行政管理", "物流管理", "供应链管理", "电子商务", "跨境电子商务", "旅游管理"],
+            "中国语言文学类": ["汉语言文学", "汉语言", "汉语国际教育", "秘书学", "网络与新媒体"],
+            "新闻传播学类": ["新闻学", "广播电视学", "广告学", "传播学", "编辑出版学", "数字出版"],
+            "外国语言文学类": ["英语", "商务英语", "翻译", "日语", "德语", "法语", "西班牙语"],
+            "法学类": ["法学", "知识产权", "纪检监察", "国际法", "社会学", "社会工作", "政治学与行政学"],
+            "交叉学科(前沿)": ["未来机器人", "交叉工程", "具身智能", "脑机科学与技术", "商业人工智能"],
+            "医药/教育/艺术类": ["临床医学", "口腔医学", "预防医学", "药学", "中药学", "护理学", "教育学", "教育技术学", "学前教育", "小学教育", "播音与主持艺术", "动画", "视觉传达设计", "环境设计", "UI/交互设计"]
+        };
+
         const majorToJobMap = {
             "计算机": ["研发", "开发", "前端", "后端", "测试", "算法", "运维", "C++", "Java", "Python", "数据分析", "产品经理", "全栈", "客户端"],
             "软件工程": ["研发", "开发", "前端", "后端", "测试", "算法", "运维", "全栈", "架构"],
@@ -290,6 +325,7 @@
         let isLoadingFast = false;
         let isLoadingFull = false;
         let isFullDataLoaded = false;
+        let hasMappedMajorMatches = false;
 
         let readJobs = JSON.parse(localStorage.getItem('zyhuhang_read_jobs') || '[]');
 
@@ -326,9 +362,56 @@
             }
         }
 
+        // ==========================================
+        // 智能联动下拉框逻辑
+        // ==========================================
+        function initMajorSelects() {
+            const catSelect = document.getElementById("major-category-select");
+            if (!catSelect) return;
+            for (const cat in majorDatabase) {
+                const opt = document.createElement("option");
+                opt.value = cat;
+                opt.textContent = cat;
+                // 对热门专业分类给予特殊样式
+                if (cat.includes("🔥")) {
+                    opt.className = "font-bold text-red-500 bg-red-50";
+                }
+                catSelect.appendChild(opt);
+            }
+        }
+
+        function handleCategoryChange(catValue) {
+            const subSelect = document.getElementById("sub-major-select");
+            if (!subSelect) return;
+            subSelect.innerHTML = '<option value="">-- 请选择细分专业 --</option>';
+            
+            if (!catValue) {
+                subSelect.disabled = true;
+                return;
+            }
+
+            subSelect.disabled = false;
+            const subMajors = majorDatabase[catValue];
+            subMajors.forEach(major => {
+                const opt = document.createElement("option");
+                opt.value = major;
+                opt.textContent = major;
+                subSelect.appendChild(opt);
+            });
+        }
+
+        function handleSubMajorChange(majorValue) {
+            if (majorValue) {
+                const heroInput = document.getElementById("hero-global-search");
+                if (heroInput) heroInput.value = majorValue;
+                currentFilters.globalKeyword = majorValue;
+                executeSearchClick();
+            }
+        }
+
         function setSearch(keyword) {
             const input = document.getElementById('hero-global-search');
-            input.value = keyword;
+            if (input) input.value = keyword;
             handleHeroSearch(keyword);
             applyFilters();
         }
@@ -391,38 +474,49 @@
             currentPage = 1;
             const heroInput = document.getElementById("hero-global-search");
             if (heroInput) heroInput.value = "";
+            
             const cityInput = document.getElementById("city-search");
             if (cityInput) cityInput.value = "";
+            
+            const catSelect = document.getElementById("major-category-select");
+            if (catSelect) catSelect.value = "";
+            handleCategoryChange("");
 
             initFilters();
             applyFilters();
             history.replaceState(null, "", window.location.pathname);
         }
 
-        let hasMappedMajorMatches = false;
-
         function matchGlobalKeyword(job, keyword) {
             if (!keyword) return true;
-            const kw = keyword.toLowerCase();
-            const fullJobText = [job.companyName, job.content, job.city, job.industry, job.companyType, job.tag].join(" ").toLowerCase();
+            // 支持多个搜索词用空格分隔（如：“汉语言 北京 国企”）
+            const fragments = keyword.toLowerCase().split(/\s+/).filter(Boolean);
+            if (fragments.length === 0) return true;
 
-            if (fullJobText.includes(kw)) return true;
+            // 必须每个词片段都被满足，才算匹配成功
+            return fragments.every(frag => {
+                const fullJobText = [job.companyName, job.content, job.city, job.industry, job.companyType, job.tag].join(" ").toLowerCase();
+                
+                // 1. 直接包含词片段
+                if (fullJobText.includes(frag)) return true;
 
-            let mappedKeywords = [];
-            for (const [major, keywords] of Object.entries(majorToJobMap)) {
-                if (major.includes(kw) || kw.includes(major)) {
-                    mappedKeywords = mappedKeywords.concat(keywords);
+                // 2. 否则，检查是否命中了专业映射（如搜“汉语言”，虽然岗位里没写汉语言，但映射到了“文案”）
+                let mappedKeywords = [];
+                for (const [major, keywords] of Object.entries(majorToJobMap)) {
+                    if (major.toLowerCase().includes(frag) || frag.includes(major.toLowerCase())) {
+                        mappedKeywords = mappedKeywords.concat(keywords);
+                    }
                 }
-            }
 
-            if (mappedKeywords.length > 0) {
-                const jobContentText = [job.content, job.tag, job.industry].join(" ").toLowerCase();
-                if (mappedKeywords.some(mappedKw => jobContentText.includes(mappedKw.toLowerCase()))) {
-                    hasMappedMajorMatches = true; 
-                    return true;
+                if (mappedKeywords.length > 0) {
+                    const jobContentText = [job.content, job.tag, job.industry].join(" ").toLowerCase();
+                    if (mappedKeywords.some(mappedKw => jobContentText.includes(mappedKw.toLowerCase()))) {
+                        hasMappedMajorMatches = true; 
+                        return true;
+                    }
                 }
-            }
-            return false;
+                return false;
+            });
         }
 
         function applyFilters() {
@@ -633,26 +727,20 @@
         }
 
         function updateTopStats() {
-            document.getElementById("today-count").textContent = countUpdatesByDays(1);
-            document.getElementById("seven-days-count").textContent = countUpdatesByDays(7);
+            const elToday = document.getElementById("today-count");
+            const elSeven = document.getElementById("seven-days-count");
+            if (elToday) elToday.textContent = countUpdatesByDays(1);
+            if (elSeven) elSeven.textContent = countUpdatesByDays(7);
+            
             const rangeEl = document.getElementById("data-range-text");
             if (!allJobs.length) {
-                rangeEl.textContent = "暂无数据";
+                if (rangeEl) rangeEl.textContent = "暂无数据";
                 return;
             }
             const sorted = [...allJobs].sort((a, b) => parseJobTime(b.updateTime) - parseJobTime(a.updateTime));
             const latest = formatDate(sorted[0].updateTime);
             const earliest = formatDate(sorted[sorted.length - 1].updateTime);
-            rangeEl.textContent = `${latest} 至 ${earliest}`;
-        }
-
-        function renderLoading(message) {
-            document.getElementById("data-container").innerHTML = `
-                <div class="bg-white p-16 text-center rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-                    <svg class="animate-spin h-10 w-10 text-brand-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                    <div class="text-gray-900 font-bold text-lg">${escapeHTML(message)}</div>
-                    <div class="text-gray-400 text-sm mt-2">请稍候</div>
-                </div>`;
+            if (rangeEl) rangeEl.textContent = `${latest} 至 ${earliest}`;
         }
 
         function updateDataStatus(status, message) {
@@ -696,7 +784,15 @@
             if (isLoadingFast) return;
             try {
                 isLoadingFast = true;
-                renderLoading("正在同步最新 200 条岗位数据...");
+                const container = document.getElementById("data-container");
+                if(container && allJobs.length === 0) {
+                    container.innerHTML = `
+                        <div class="bg-white p-16 text-center rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
+                            <svg class="animate-spin h-10 w-10 text-brand-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            <div class="text-gray-900 font-bold text-lg">正在接驳企业数据库...</div>
+                            <div class="text-gray-400 text-sm mt-2">首次加载可能需要几秒钟，请稍候</div>
+                        </div>`;
+                }
                 updateDataStatus("loading", "同步基础数据...");
                 const res = await fetchWithTimeout(`/api/jobs?mode=fast&fastLimit=${FAST_LIMIT}`, {}, 20000);
                 if (!res.ok) throw new Error(`请求失败`);
@@ -713,7 +809,7 @@
                     preloadFullData();
                 }
             } catch (err) {
-                updateDataStatus("error", "同步失败，请刷新页面");
+                updateDataStatus("error", "同步失败，请刷新重试");
             } finally {
                 isLoadingFast = false;
             }
@@ -738,13 +834,22 @@
             } catch (err) {} finally { isLoadingFull = false; }
         }
 
+        // ==========================================
+        // 核心渲染与分页组件模块补全
+        // ==========================================
         function renderCurrentPage() {
             const start = (currentPage - 1) * pageSize;
             const end = start + pageSize;
             const pageJobs = filteredJobs.slice(start, end);
-            document.getElementById("total-records").textContent = totalRecords;
-            document.getElementById("current-page").textContent = currentPage;
-            document.getElementById("total-pages").textContent = totalPages;
+            
+            const elTotal = document.getElementById("total-records");
+            const elPage = document.getElementById("current-page");
+            const elTotalPage = document.getElementById("total-pages");
+            
+            if(elTotal) elTotal.textContent = totalRecords;
+            if(elPage) elPage.textContent = currentPage;
+            if(elTotalPage) elTotalPage.textContent = totalPages;
+            
             renderJobList(pageJobs);
         }
 
@@ -762,7 +867,13 @@
 
         function renderPagination() {
             const container = document.getElementById("pagination-container");
-            if (totalPages <= 1) { container.innerHTML = ""; return; }
+            if (!container) return;
+            
+            if (totalPages <= 1) { 
+                container.innerHTML = ""; 
+                return; 
+            }
+            
             const prevDisabled = currentPage <= 1;
             const nextDisabled = currentPage >= totalPages;
             const startPage = Math.max(1, currentPage - 2);
@@ -796,21 +907,23 @@
         }
 
         // ===============================================
-        // 核心优化区：修复电脑端宽度溢出与移动端智能切换
+        // 核心渲染区：解决电脑溢出与移动端自适应的双端方案
         // ===============================================
         function renderJobList(records) {
             const container = document.getElementById("data-container");
+            if (!container) return;
+            
             if (records.length === 0) {
                 container.innerHTML = `
                     <div class="bg-white p-16 text-center rounded-2xl shadow-sm border border-gray-100">
                         <div class="text-5xl mb-4 opacity-50">📭</div>
                         <div class="text-gray-900 font-bold text-xl">未匹配到符合条件的岗位</div>
-                        <div class="text-gray-400 text-sm mt-3">建议尝试搜索其他专业或减少筛选条件</div>
+                        <div class="text-gray-400 text-sm mt-3">建议尝试更改专业大类，或放宽筛选条件</div>
                     </div>`;
                 return;
             }
             
-            // 电脑端：使用严格的 table-fixed 比例控制，杜绝出现横向滚动条
+            // 电脑端：严格的 table-fixed 比例控制，杜绝横向滚动条
             let tableHtml = `
                 <div class="hidden lg:block overflow-hidden bg-white rounded-2xl shadow-lg border border-gray-100 w-full">
                     <table class="min-w-full table-fixed divide-y divide-gray-100 text-sm text-left align-middle w-full">
@@ -828,7 +941,7 @@
                         <tbody class="divide-y divide-gray-100 bg-white">
             `;
             
-            // 移动端/iPad端：使用 lg:hidden 控制
+            // 移动端/iPad端卡片视图
             let cardsHtml = `<div class="lg:hidden flex flex-col gap-4">`;
             
             records.forEach(item => {
@@ -1007,6 +1120,7 @@
 
         document.addEventListener("DOMContentLoaded", async () => {
             applyFiltersFromUrl();
+            initMajorSelects();
             initFilters();
             await fetchData();
         });
