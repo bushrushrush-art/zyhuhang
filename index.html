@@ -157,17 +157,14 @@
                     <span class="text-gray-500 font-medium w-16 shrink-0 mt-1">招聘节点</span>
                     <div id="filter-jobTag" class="flex flex-wrap gap-2 sm:gap-3 flex-1"></div>
                 </div>
-
                 <div class="flex items-start gap-2 sm:gap-4">
                     <span class="text-gray-500 font-medium w-16 shrink-0 mt-1">岗位特色</span>
                     <div id="filter-feature" class="flex flex-wrap gap-2 sm:gap-3 flex-1"></div>
                 </div>
-
                 <div class="flex items-start gap-2 sm:gap-4">
                     <span class="text-gray-500 font-medium w-16 shrink-0 mt-1">所属行业</span>
                     <div id="filter-industry" class="flex flex-wrap gap-2 sm:gap-3 flex-1 max-h-32 overflow-y-auto no-scrollbar pb-2"></div>
                 </div>
-
                 <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
                     <span class="text-gray-500 font-medium w-16 shrink-0 mt-1">工作城市</span>
                     <div class="flex-1">
@@ -177,7 +174,6 @@
                         <div id="filter-city" class="flex flex-wrap gap-2 sm:gap-3"></div>
                     </div>
                 </div>
-
                 <div class="flex items-start gap-2 sm:gap-4">
                     <span class="text-gray-500 font-medium w-16 shrink-0 mt-1">企业性质</span>
                     <div id="filter-companyType" class="flex flex-wrap gap-2 sm:gap-3 flex-1"></div>
@@ -186,10 +182,10 @@
         </div>
 
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 px-1">
-            <div class="text-sm text-gray-600 flex items-center gap-2">
-                <div class="h-4 w-1 bg-brand-500 rounded-full"></div>
-                <span id="major-match-tip" class="hidden font-bold text-brand-600 border border-brand-200 bg-brand-50 px-2 py-0.5 rounded mr-1">✨ 已智能拓展专业相关岗位</span>
-                当前共匹配到 <span id="total-records" class="text-brand-600 font-extrabold text-lg mx-1">0</span> 个岗位
+            <div class="text-sm text-gray-600 flex items-center gap-2 flex-wrap">
+                <div class="h-4 w-1 bg-brand-500 rounded-full hidden sm:block"></div>
+                <span id="major-match-tip" class="hidden font-bold text-brand-600 border border-brand-200 bg-brand-50 px-2 py-0.5 rounded">✨ 已智能拓展专业相关岗位</span>
+                <span>当前共匹配到 <span id="total-records" class="text-brand-600 font-extrabold text-lg mx-1">0</span> 个岗位</span>
                 <span class="text-gray-400 ml-2 text-xs">第 <span id="current-page">1</span> / <span id="total-pages">1</span> 页</span>
             </div>
 
@@ -218,11 +214,7 @@
     </footer>
 
     <script>
-        // ==========================================
-        // 核心亮点功能：本硕专业 -> 市场岗位映射字典
-        // ==========================================
         const majorToJobMap = {
-            // --- 电子/计算机/信息类 ---
             "计算机": ["研发", "开发", "前端", "后端", "测试", "算法", "运维", "C++", "Java", "Python", "数据分析", "产品经理", "全栈", "客户端"],
             "软件工程": ["研发", "开发", "前端", "后端", "测试", "算法", "运维", "全栈", "架构"],
             "电子信息": ["硬件", "嵌入式", "通信", "测试", "芯片", "半导体", "FPGA", "射频"],
@@ -230,8 +222,6 @@
             "人工智能": ["算法", "数据分析", "机器学习", "深度学习", "视觉", "NLP", "模型", "大语言"],
             "网络工程": ["网络", "安全", "运维", "通信", "渗透", "技术支持"],
             "物联网": ["嵌入式", "物联网", "硬件", "C语言", "单片机"],
-
-            // --- 经济/金融/管理类 ---
             "金融": ["投资", "融资", "券商", "银行", "风控", "行研", "顾问", "财富", "理财", "分析师"],
             "经济学": ["分析师", "行研", "咨询", "银行", "运营", "管培生", "宏观"],
             "会计": ["财务", "审计", "税务", "结算", "出纳", "资金", "内控"],
@@ -240,15 +230,11 @@
             "人力资源": ["招聘", "HR", "员工关系", "培训", "薪酬", "绩效", "人事", "政委"],
             "市场营销": ["市场", "销售", "BD", "商务", "策划", "品牌", "公关", "渠道"],
             "电子商务": ["电商", "运营", "淘宝", "抖音", "主播", "直播", "跨境", "供应链"],
-
-            // --- 文学/法学/传媒类 ---
             "汉语言": ["文案", "编辑", "新媒体", "运营", "策划", "行政", "人事", "公关", "记者"],
             "新闻": ["记者", "编辑", "新媒体", "公关", "媒介", "编导", "文案", "舆情"],
             "传播": ["媒介", "公关", "广告", "策划", "品牌", "新媒体", "市场"],
             "法学": ["法务", "合规", "律师", "风控", "产权", "专利", "审计"],
             "知识产权": ["专利", "知产", "商标", "法务", "审查"],
-
-            // --- 理工/生化环材 ---
             "机械": ["机械", "结构", "工艺", "制造", "设备", "机电", "模具", "CAE", "液压"],
             "材料": ["材料", "工艺", "研发", "质量", "测试", "半导体", "新能源", "高分子", "电芯"],
             "化学": ["化工", "研发", "分析", "实验", "工艺", "制药", "合成", "涂料"],
@@ -256,8 +242,6 @@
             "环境": ["环保", "EHS", "水处理", "环评", "安全", "监测", "废气"],
             "土木": ["施工", "造价", "建筑", "路桥", "设计", "工程", "岩土"],
             "电气": ["电气", "强电", "弱电", "电网", "新能源", "电力"],
-
-            // --- 其他常见 ---
             "数学": ["数据分析", "算法", "精算", "开发", "风控", "量化"],
             "统计": ["数据分析", "算法", "精算", "运营", "风控", "模型"],
             "外语": ["翻译", "外贸", "海外", "商务", "运营", "销售", "出海"],
@@ -342,10 +326,6 @@
             }
         }
 
-        // ==========================================
-        // UI 操作与搜素逻辑
-        // ==========================================
-
         function setSearch(keyword) {
             const input = document.getElementById('hero-global-search');
             input.value = keyword;
@@ -360,7 +340,6 @@
         function executeSearchClick() {
             currentPage = 1;
             applyFilters();
-            // 平滑滚动到数据区
             const container = document.getElementById("data-container");
             if (container) {
                 const topPosition = container.getBoundingClientRect().top + window.scrollY - 100;
@@ -420,24 +399,17 @@
             history.replaceState(null, "", window.location.pathname);
         }
 
-        // ==========================================
-        // 核心匹配算法 (包含专业映射)
-        // ==========================================
-        
-        let hasMappedMajorMatches = false; // 用于控制界面上的“已智能拓展”提示
+        let hasMappedMajorMatches = false;
 
         function matchGlobalKeyword(job, keyword) {
             if (!keyword) return true;
             const kw = keyword.toLowerCase();
             const fullJobText = [job.companyName, job.content, job.city, job.industry, job.companyType, job.tag].join(" ").toLowerCase();
 
-            // 1. 常规全文直接匹配 (如果直接搜到了公司名、城市名或岗位全称)
             if (fullJobText.includes(kw)) return true;
 
-            // 2. 专业映射拓展匹配
             let mappedKeywords = [];
             for (const [major, keywords] of Object.entries(majorToJobMap)) {
-                // 如果用户输入的内容包含专业名，或者专业名包含输入内容（部分匹配）
                 if (major.includes(kw) || kw.includes(major)) {
                     mappedKeywords = mappedKeywords.concat(keywords);
                 }
@@ -445,27 +417,22 @@
 
             if (mappedKeywords.length > 0) {
                 const jobContentText = [job.content, job.tag, job.industry].join(" ").toLowerCase();
-                // 只要该岗位的名称或标签，匹配到了该专业对应的任何一个热门岗位词，即算命中
                 if (mappedKeywords.some(mappedKw => jobContentText.includes(mappedKw.toLowerCase()))) {
-                    hasMappedMajorMatches = true; // 记录发生过拓展匹配
+                    hasMappedMajorMatches = true; 
                     return true;
                 }
             }
-
             return false;
         }
 
         function applyFilters() {
-            hasMappedMajorMatches = false; // 每次筛选前重置状态
+            hasMappedMajorMatches = false;
 
             filteredJobs = allJobs.filter(job => {
                 const globalKeyword = currentFilters.globalKeyword || "";
                 const cityKeyword = currentFilters.cityKeyword || "";
 
-                // 全局智能检索
                 const matchGlobal = matchGlobalKeyword(job, globalKeyword);
-
-                // 其他基础筛选
                 const matchSelectedJobTag = matchJobTagArray(job, currentFilters.jobTag);
                 const matchSelectedFeature = matchFeatureArray(job, currentFilters.feature);
                 const matchIndustry = currentFilters.industry.length === 0 || currentFilters.industry.some(ind => includesKeyword(job.industry, ind));
@@ -482,23 +449,15 @@
             totalPages = Math.max(1, Math.ceil(totalRecords / pageSize));
             if (currentPage > totalPages) currentPage = totalPages;
 
-            // 根据是否触发了专业拓展，显示提示标签
             const tipEl = document.getElementById('major-match-tip');
             if (tipEl) {
-                if (hasMappedMajorMatches) {
-                    tipEl.classList.remove('hidden');
-                } else {
-                    tipEl.classList.add('hidden');
-                }
+                if (hasMappedMajorMatches) tipEl.classList.remove('hidden');
+                else tipEl.classList.add('hidden');
             }
 
             renderCurrentPage();
             renderPagination();
         }
-
-        // ==========================================
-        // 其他基础函数与渲染逻辑 (保持原样)
-        // ==========================================
 
         const bigCities = ["全国", "北京", "上海", "广州", "深圳", "杭州", "成都", "武汉", "南京", "苏州", "西安", "长沙", "重庆", "天津"];
         const bigCompanyKeywords = ["阿里", "腾讯", "字节", "百度", "京东", "美团", "快手", "小米", "华为", "网易", "滴滴", "携程", "比亚迪", "蔚来", "理想", "大疆"];
@@ -836,6 +795,9 @@
             `;
         }
 
+        // ===============================================
+        // 核心优化区：修复电脑端宽度溢出与移动端智能切换
+        // ===============================================
         function renderJobList(records) {
             const container = document.getElementById("data-container");
             if (records.length === 0) {
@@ -848,24 +810,26 @@
                 return;
             }
             
+            // 电脑端：使用严格的 table-fixed 比例控制，杜绝出现横向滚动条
             let tableHtml = `
-                <div class="hidden md:block overflow-hidden bg-white rounded-2xl shadow-lg border border-gray-100">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-100 text-sm text-left align-middle">
-                            <thead class="bg-slate-50 text-gray-500 font-semibold tracking-wider">
-                                <tr>
-                                    <th class="px-6 py-4 whitespace-nowrap w-32">更新日期</th>
-                                    <th class="px-6 py-4 whitespace-nowrap">企业信息</th>
-                                    <th class="px-6 py-4 text-center whitespace-nowrap">性质</th>
-                                    <th class="px-6 py-4">招聘岗位</th>
-                                    <th class="px-6 py-4 whitespace-nowrap">城市</th>
-                                    <th class="px-6 py-4 whitespace-nowrap">所属行业</th>
-                                    <th class="px-6 py-4 text-center whitespace-nowrap">投递通道</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100 bg-white">
+                <div class="hidden lg:block overflow-hidden bg-white rounded-2xl shadow-lg border border-gray-100 w-full">
+                    <table class="min-w-full table-fixed divide-y divide-gray-100 text-sm text-left align-middle w-full">
+                        <thead class="bg-slate-50 text-gray-500 font-semibold tracking-wider">
+                            <tr>
+                                <th class="px-3 py-4 w-[11%]">更新日期</th>
+                                <th class="px-3 py-4 w-[25%]">企业信息</th>
+                                <th class="px-3 py-4 w-[8%] text-center">性质</th>
+                                <th class="px-3 py-4 w-[22%]">招聘岗位</th>
+                                <th class="px-3 py-4 w-[10%]">城市</th>
+                                <th class="px-3 py-4 w-[10%]">所属行业</th>
+                                <th class="px-3 py-4 w-[14%] text-center">投递通道</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 bg-white">
             `;
-            let cardsHtml = `<div class="md:hidden flex flex-col gap-4">`;
+            
+            // 移动端/iPad端：使用 lg:hidden 控制
+            let cardsHtml = `<div class="lg:hidden flex flex-col gap-4">`;
             
             records.forEach(item => {
                 const companyName = escapeHTML(item.companyName);
@@ -897,30 +861,40 @@
 
                 const pcApplyLink = applyInfo.type === "url"
                     ? `<div class="flex flex-col items-center gap-2"><a href="${url}" target="_blank" rel="noopener noreferrer" onclick="markAsRead('${jobId}')" class="inline-block text-brand-600 hover:text-brand-800 font-bold underline-offset-4 hover:underline transition-colors">立即投递</a>${copyButton}</div>`
-                    : `<div class="flex flex-col items-center gap-2"><span class="text-gray-600 font-medium text-xs leading-tight block max-w-[150px] truncate" title="${rawUrlText}">${rawUrlText}</span>${copyButton}</div>`;
+                    : `<div class="flex flex-col items-center gap-2"><span class="text-gray-600 font-medium text-xs leading-tight block w-full truncate" title="${rawUrlText}">${rawUrlText}</span>${copyButton}</div>`;
 
                 const mobileApplyLink = applyInfo.type === "url"
                     ? `<a href="${url}" target="_blank" rel="noopener noreferrer" onclick="markAsRead('${jobId}')" class="shrink-0 px-5 py-2.5 bg-brand-600 text-white text-sm font-bold rounded-xl active:bg-brand-700 shadow-md shadow-brand-200 transition-colors">立即投递</a>${copyButton}`
                     : `<div class="px-3 py-2.5 text-gray-700 font-medium text-xs bg-gray-50 border border-gray-200 rounded-xl truncate flex-1">${rawUrlText}</div>${copyButton}`;
 
-                let pcTagsHtml = `<span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium border ${recommendClass}">${recommendText}</span>`;
-                if (tag && tag !== "-") pcTagsHtml += `<span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">${tag}</span>`;
-                if (majorTag) pcTagsHtml += `<span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-600 border border-emerald-200">${safeMajorTag}</span>`;
+                let pcTagsHtml = `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium border ${recommendClass}">${recommendText}</span>`;
+                if (tag && tag !== "-") pcTagsHtml += `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">${tag}</span>`;
+                if (majorTag) pcTagsHtml += `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-600 border border-emerald-200">${safeMajorTag}</span>`;
 
                 tableHtml += `
                     <tr id="row-${jobId}" class="table-row-hover transition-all duration-200 ease-in-out cursor-default ${readRowClass}">
-                        <td class="px-6 py-5 whitespace-nowrap text-gray-400 font-medium align-middle">${updateTime}</td>
-                        <td class="px-6 py-5 text-gray-900 font-bold max-w-[280px] align-middle" title="${companyName}">
-                            <div class="truncate text-base">${companyName}<span class="read-badge-${jobId} ${readBadgeClass} ml-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-gray-500 align-middle">已阅</span></div>
-                            <div class="mt-2 flex flex-wrap gap-1">${pcTagsHtml}</div>
+                        <td class="px-3 py-4 text-gray-400 font-medium align-middle truncate">${updateTime}</td>
+                        <td class="px-3 py-4 text-gray-900 font-bold align-middle overflow-hidden" title="${companyName}">
+                            <div class="flex items-center w-full">
+                                <span class="truncate text-[15px]">${companyName}</span>
+                                <span class="read-badge-${jobId} ${readBadgeClass} shrink-0 ml-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-gray-500">已阅</span>
+                            </div>
+                            <div class="mt-1 flex items-center gap-1 overflow-hidden w-full h-5">${pcTagsHtml}</div>
                         </td>
-                        <td class="px-6 py-5 text-center align-middle whitespace-nowrap"><span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium border border-gray-200 text-gray-600 bg-gray-50 shadow-sm">${companyType}</span></td>
-                        <td class="px-6 py-5 text-gray-800 w-[260px] max-w-[260px] truncate align-middle font-medium" title="${content}">${content}</td>
-                        <td class="px-6 py-5 text-gray-600 max-w-[120px] truncate align-middle" title="${city}">
-                            <div class="flex items-center gap-1"><svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg><span class="truncate">${city}</span></div>
+                        <td class="px-3 py-4 text-center align-middle">
+                            <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium border border-gray-200 text-gray-600 bg-gray-50 shadow-sm whitespace-nowrap">${companyType}</span>
                         </td>
-                        <td class="px-6 py-5 whitespace-nowrap align-middle"><span class="inline-flex items-center text-sm font-medium text-gray-600">${industry}</span></td>
-                        <td class="px-6 py-5 text-center align-middle whitespace-nowrap">${pcApplyLink}</td>
+                        <td class="px-3 py-4 text-gray-800 align-middle font-medium truncate" title="${content}">${content}</td>
+                        <td class="px-3 py-4 text-gray-600 align-middle truncate" title="${city}">
+                            <div class="flex items-center gap-1 w-full">
+                                <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                <span class="truncate">${city}</span>
+                            </div>
+                        </td>
+                        <td class="px-3 py-4 align-middle truncate text-sm font-medium text-gray-600" title="${industry}">${industry}</td>
+                        <td class="px-3 py-4 text-center align-middle overflow-hidden">
+                            ${pcApplyLink}
+                        </td>
                     </tr>
                 `;
 
